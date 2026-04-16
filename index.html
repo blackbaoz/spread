@@ -613,6 +613,13 @@ function buildFinalCandidates(raw){
     secondary_tags: sLib.tags
   };
 }
+
+function normalizeResult(raw){
+  if(!raw || typeof raw !== 'object') return raw;
+  if(raw.phase === 'question') return raw;
+  return buildFinalCandidates(raw);
+}
+
 async function callClaude(conv, system, maxTokens=800){
   const trimmed=conv.length>8?conv.slice(-8):conv;
   const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:trimmed})});
