@@ -10,8 +10,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #111; color: #f0f0f0; font-family: 'Noto Sans JP', sans-serif; min-height: 100vh; }
     .container { max-width: 560px; margin: 0 auto; padding: 0 20px 80px; }
-
-    /* HEADER */
     .header { text-align: center; padding: 48px 0 32px; }
     .brand { font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 6px; color: #E8251A; margin-bottom: .4rem; }
     .title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; color: #f0f0f0; line-height: 1; }
@@ -19,28 +17,20 @@
     .ai-badge { display: inline-flex; align-items: center; gap: 6px; background: #1e1e1e; border: 1px solid #333; padding: 4px 14px; border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: #888; margin-top: .75rem; }
     .ai-dot { width: 6px; height: 6px; border-radius: 50%; background: #E8251A; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-    /* SCREENS */
     .screen { display: none; }
     .screen.active { display: block; animation: fadeUp .35s ease; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-
-    /* INTRO */
     .intro-card { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 24px; margin-bottom: 20px; }
     .intro-card p { font-size: 14px; line-height: 1.9; color: #aaa; font-weight: 300; margin-bottom: 20px; }
     .intro-badges { display: flex; gap: 10px; }
     .intro-badge { flex: 1; background: #111; border: 1px solid #2a2a2a; padding: 12px 8px; text-align: center; font-size: 11px; color: #666; letter-spacing: 1px; }
     .intro-badge-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #E8251A; display: block; margin-bottom: 4px; }
-    .btn-start { display: block; width: 100%; background: #f0f0f0; color: #111; border: none; padding: 16px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 3px; font-weight: 500; cursor: pointer; transition: background .2s; }
+    .btn-start { display: block; width: 100%; background: #f0f0f0; color: #111; padding: 16px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 3px; font-weight: 500; cursor: pointer; text-align: center; transition: background .2s; user-select: none; }
     .btn-start:hover { background: #fff; }
-
-    /* PROGRESS */
     .prog { display: flex; gap: 4px; justify-content: center; margin-bottom: 2rem; }
     .pd { width: 28px; height: 2px; background: #2a2a2a; }
     .pd.on { background: #E8251A; }
     .pd.done { background: #555; }
-
-    /* QUIZ */
     .history-item { margin-bottom: 12px; }
     .history-q { font-size: 11px; color: #444; margin-bottom: 3px; }
     .history-a { display: inline-block; background: rgba(232,37,26,.1); border: 1px solid rgba(232,37,26,.25); padding: 4px 12px; font-size: 12px; color: #E8251A; }
@@ -51,14 +41,22 @@
     .opt { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 14px 18px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; color: #f0f0f0; text-align: left; line-height: 1.5; transition: border-color .15s; user-select: none; }
     .opt:hover { border-color: #555; }
     .opt.sel { border-color: #E8251A; color: #fff; }
-
-    /* LOADING */
+    .body-inputs { display: grid; gap: 16px; margin-bottom: 8px; }
+    .input-group label { font-size: 11px; color: #666; letter-spacing: 2px; display: block; margin-bottom: 8px; }
+    .input-wrap { position: relative; }
+    .num-input { background: #1a1a1a; border: 1px solid #2a2a2a; color: #f0f0f0; padding: 14px 48px 14px 18px; font-family: 'Noto Sans JP', sans-serif; font-size: 22px; width: 100%; outline: none; transition: border-color .2s; }
+    .num-input:focus { border-color: #E8251A; }
+    .num-input::placeholder { color: #333; }
+    .num-unit { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #555; font-size: 14px; pointer-events: none; }
+    .btn-analyze { display: block; width: 100%; background: #f0f0f0; color: #111; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 3px; font-weight: 500; cursor: pointer; text-align: center; margin-top: 20px; transition: all .2s; user-select: none; }
+    .btn-analyze:hover { background: #fff; }
+    .btn-analyze.off { background: #2a2a2a !important; color: #555 !important; cursor: not-allowed; pointer-events: none; }
+    .input-back { font-size: 12px; color: #666; cursor: pointer; letter-spacing: 1px; padding: 16px 0 0; display: inline-block; }
+    .input-back:hover { color: #f0f0f0; }
     .loading { display: flex; flex-direction: column; align-items: center; padding: 5rem 0; gap: 1.5rem; }
     .spinner { width: 32px; height: 32px; border: 2px solid #2a2a2a; border-top-color: #E8251A; border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to{transform:rotate(360deg)} }
     .loading-txt { font-size: 11px; letter-spacing: 3px; color: #555; }
-
-    /* RESULT */
     .result-label { font-size: 10px; letter-spacing: 4px; color: #555; margin-bottom: 1rem; }
     .result-main { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 24px; margin-bottom: 16px; }
     .result-best-label { font-size: 10px; letter-spacing: 3px; color: #E8251A; margin-bottom: .5rem; }
@@ -67,19 +65,14 @@
     .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0; }
     .result-tag { border: 1px solid #2a2a2a; padding: 3px 10px; font-size: 10px; letter-spacing: 2px; color: #777; }
     .result-reason { font-size: 14px; line-height: 1.85; color: #bbb; font-weight: 300; margin-bottom: 1rem; }
-
-    /* AI COMMENT */
     .ai-comment-wrap { margin-top: 16px; border-top: 1px solid #222; padding-top: 16px; }
-    .ai-comment-label { font-size: 9px; letter-spacing: 3px; color: #E8251A; margin-bottom: .6rem; display: flex; align-items: center; gap: 8px; }
+    .ai-comment-label { font-size: 9px; letter-spacing: 3px; color: #E8251A; margin-bottom: .6rem; }
     .ai-comment-body { font-size: 14px; line-height: 1.9; color: #ccc; font-weight: 300; min-height: 48px; }
     .ai-comment-loading { display: flex; align-items: center; gap: 8px; color: #444; font-size: 12px; }
     .dot-pulse { display: flex; gap: 4px; }
     .dot-pulse span { width: 4px; height: 4px; background: #E8251A; border-radius: 50%; animation: dp 1.2s infinite; }
-    .dot-pulse span:nth-child(2){animation-delay:.2s}
-    .dot-pulse span:nth-child(3){animation-delay:.4s}
+    .dot-pulse span:nth-child(2){animation-delay:.2s} .dot-pulse span:nth-child(3){animation-delay:.4s}
     @keyframes dp { 0%,80%,100%{transform:scale(.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
-
-    /* RIDERS */
     .riders-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 20px; margin-bottom: 16px; }
     .riders-label { font-size: 10px; letter-spacing: 3px; color: #555; border-bottom: 1px solid #222; padding-bottom: .75rem; margin-bottom: .75rem; }
     .rider-list { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -87,8 +80,6 @@
     .rider:hover { border-color: #555; }
     .rider-icon { width: 28px; height: 28px; border-radius: 50%; background: #1e1e1e; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #777; font-family: 'Bebas Neue', sans-serif; flex-shrink: 0; }
     .rider-name { font-size: 12px; color: #bbb; letter-spacing: 1px; }
-
-    /* CHAT */
     .chat-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 20px; margin-bottom: 16px; }
     .chat-label { font-size: 10px; letter-spacing: 3px; color: #555; margin-bottom: 1rem; }
     .chat-messages { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; max-height: 280px; overflow-y: auto; }
@@ -103,9 +94,8 @@
     .chat-send { background: #E8251A; border: none; color: #fff; padding: 12px 18px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; letter-spacing: 1px; font-weight: 500; cursor: pointer; transition: opacity .2s; white-space: nowrap; }
     .chat-send:hover { opacity: .85; }
     .chat-send:disabled { opacity: .35; cursor: not-allowed; }
-
     .divider-line { height: 1px; background: #222; margin: 1.5rem 0; }
-    .btn-retry { display: block; width: 100%; background: transparent; border: 1px solid #2a2a2a; color: #555; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 2px; cursor: pointer; text-align: center; transition: all .2s; }
+    .btn-retry { display: block; width: 100%; background: transparent; border: 1px solid #2a2a2a; color: #555; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 2px; cursor: pointer; text-align: center; transition: all .2s; user-select: none; }
     .btn-retry:hover { border-color: #666; color: #f0f0f0; }
     .hidden { display: none !important; }
   </style>
@@ -119,12 +109,11 @@
     <div class="ai-badge"><span class="ai-dot"></span>AI POWERED DIAGNOSIS</div>
   </div>
 
-  <!-- INTRO -->
   <div id="screen-intro" class="screen active">
     <div class="intro-card">
-      <p>6つの質問に答えるだけで、あなたのライディングスタイルに最適なSPREAD SNOWBOARDSモデルをAIが提案します。</p>
+      <p>5つの質問と身長・体重の入力から、あなたのライディングスタイルに最適なSPREAD SNOWBOARDSモデルと推奨サイズをAIが提案します。</p>
       <div class="intro-badges">
-        <div class="intro-badge"><span class="intro-badge-num">6</span>質問</div>
+        <div class="intro-badge"><span class="intro-badge-num">6</span>STEP</div>
         <div class="intro-badge"><span class="intro-badge-num">AI</span>解析</div>
         <div class="intro-badge"><span class="intro-badge-num">1</span>最適モデル</div>
       </div>
@@ -132,7 +121,6 @@
     <div class="btn-start" onclick="startQuiz()">診断スタート →</div>
   </div>
 
-  <!-- QUIZ -->
   <div id="screen-quiz" class="screen">
     <div class="prog" id="prog"></div>
     <div id="history-area"></div>
@@ -142,17 +130,39 @@
     <div class="opts" id="opts"></div>
   </div>
 
-  <!-- LOADING -->
+  <div id="screen-body" class="screen">
+    <div class="prog" id="prog-body"></div>
+    <div id="history-area-body"></div>
+    <div class="divider"></div>
+    <div class="qn">Q6 / 6</div>
+    <div class="qt">身長と体重を教えてください</div>
+    <div class="body-inputs">
+      <div class="input-group">
+        <label>身長</label>
+        <div class="input-wrap">
+          <input class="num-input" type="number" id="inp-height" placeholder="170" min="140" max="210" oninput="checkBody()">
+          <span class="num-unit">cm</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>体重</label>
+        <div class="input-wrap">
+          <input class="num-input" type="number" id="inp-weight" placeholder="65" min="30" max="150" oninput="checkBody()">
+          <span class="num-unit">kg</span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-analyze off" id="btn-analyze" onclick="submitBody()">ANALYZE →</div>
+    <div class="input-back" onclick="backFromBody()">← BACK</div>
+  </div>
+
   <div id="screen-loading" class="screen">
-    <div class="prog" id="prog-loading"></div>
-    <div id="history-area-loading"></div>
     <div class="loading">
       <div class="spinner"></div>
-      <div class="loading-txt">AI解析中...</div>
+      <div class="loading-txt" id="loading-txt">AI解析中...</div>
     </div>
   </div>
 
-  <!-- RESULT -->
   <div id="screen-result" class="screen">
     <div class="result-label">RESULT</div>
     <div class="result-main">
@@ -171,21 +181,18 @@
         </div>
       </div>
     </div>
-
     <div class="riders-wrap hidden" id="riders-wrap">
       <div class="riders-label">THIS MODEL'S RIDERS</div>
       <div class="rider-list" id="rider-list"></div>
     </div>
-
     <div class="chat-wrap">
       <div class="chat-label">AIに質問する</div>
       <div class="chat-messages" id="chat-messages"></div>
       <div class="chat-row">
         <input class="chat-input" id="chat-input" type="text" placeholder="例：春雪でも使えますか？" maxlength="200">
-        <div class="chat-send" id="chat-send" onclick="sendChat()">送信</div>
+        <button class="chat-send" id="chat-send" onclick="sendChat()">送信</button>
       </div>
     </div>
-
     <div class="divider-line"></div>
     <div class="btn-retry" onclick="resetQuiz()">← 最初からやり直す</div>
   </div>
@@ -193,316 +200,241 @@
 
 <script>
 const RIDERS = {
-  'RD GX': [{n:'@yuhnosuke.sugaya',u:'https://www.instagram.com/yuhnosuke.sugaya'},{n:'@yuichiro_suguro',u:'https://www.instagram.com/yuichiro_suguro'}],
-  'RD':    [{n:'@sekiya_riku0322',u:'https://www.instagram.com/sekiya_riku0322'},{n:'@satsuka_shiozawa',u:'https://www.instagram.com/satsuka_shiozawa'},{n:'@nagisa_snowbd',u:'https://www.instagram.com/nagisa_snowbd'},{n:'@kuuto.910.sohara',u:'https://www.instagram.com/kuuto.910.sohara'}],
-  'RD CV': [{n:'@sekiya_riku0322',u:'https://www.instagram.com/sekiya_riku0322'},{n:'@satsuka_shiozawa',u:'https://www.instagram.com/satsuka_shiozawa'}],
-  'ZERO':  [{n:'@rei_horiuchi',u:'https://www.instagram.com/rei_horiuchi'}],
-  'AX-F':  [{n:'@t0rachan.t',u:'https://www.instagram.com/t0rachan.t'}],
-  'LTY':   [{n:'@jht90310',u:'https://www.instagram.com/jht90310'}],
-  'LTV':   [{n:'@ju._.bys',u:'https://www.instagram.com/ju._.bys'}],
-  'BX':    [{n:'@ci_ka_si__95',u:'https://www.instagram.com/ci_ka_si__95'}],
-  'BX-F':  [{n:'@moooriii9999',u:'https://www.instagram.com/moooriii9999'}],
-  'DX':    [{n:'@imshige',u:'https://www.instagram.com/imshige'}],
-  'LTA-F': [],
-  'LTB':   []
+  'RD GX':[{n:'@yuhnosuke.sugaya',u:'https://www.instagram.com/yuhnosuke.sugaya'},{n:'@yuichiro_suguro',u:'https://www.instagram.com/yuichiro_suguro'}],
+  'RD':[{n:'@sekiya_riku0322',u:'https://www.instagram.com/sekiya_riku0322'},{n:'@satsuka_shiozawa',u:'https://www.instagram.com/satsuka_shiozawa'},{n:'@nagisa_snowbd',u:'https://www.instagram.com/nagisa_snowbd'},{n:'@kuuto.910.sohara',u:'https://www.instagram.com/kuuto.910.sohara'}],
+  'RD CV':[{n:'@sekiya_riku0322',u:'https://www.instagram.com/sekiya_riku0322'},{n:'@satsuka_shiozawa',u:'https://www.instagram.com/satsuka_shiozawa'}],
+  'ZERO':[{n:'@rei_horiuchi',u:'https://www.instagram.com/rei_horiuchi'}],
+  'AX-F':[{n:'@t0rachan.t',u:'https://www.instagram.com/t0rachan.t'}],
+  'LTY':[{n:'@jht90310',u:'https://www.instagram.com/jht90310'}],
+  'LTV':[{n:'@ju._.bys',u:'https://www.instagram.com/ju._.bys'}],
+  'BX':[{n:'@ci_ka_si__95',u:'https://www.instagram.com/ci_ka_si__95'}],
+  'BX-F':[{n:'@moooriii9999',u:'https://www.instagram.com/moooriii9999'}],
+  'DX':[{n:'@imshige',u:'https://www.instagram.com/imshige'}],
+  'LTA-F':[],'LTB':[]
 };
 
-const SYSTEM = `あなたはSPREAD SNOWBOARDSの板診断AIです。以下のモデル情報を完全に理解した上で、7問の質問を通じてユーザーに最適なモデルを1つ提案してください。
+const SYSTEM = `あなたはSPREAD SNOWBOARDSの板診断AIです。以下の5問を順番に質問し、回答をもとに最適なモデルを1つ提案してください。身長・体重は別画面で収集し、その後に最終結果を返してください。
 
-【モデル一覧と特徴】
+【モデル一覧】
+LTA-F: キャンバー/ミドルソフト/グラトリ〜カービング万能
+AX-F: キャンバー/ミドルソフト/弾き飛び系グラトリ/有効エッジ延長
+LTB: 可変キャンバー/ミドル/プレスバター系グラトリ
+BX: 可変キャンバー/ミドル/弾き飛び系グラトリ/スピン向上
+BX-F: 可変キャンバー/ソフト/プレスバター特化/軽量回転性大幅向上
+DX: ダブルキャンバー/ミドルソフト/ルーズ扱いやすさ重視
+LTY: 可変キャンバー/ミドル/ラントリ・カービング+グラトリ両立
+LTV: 可変キャンバー/ソフト/カービング+グラトリ/反発性
+ZERO: キャンバー/ミドル/弾き飛び系特化・堀内礼監修/スピン最高峰
+RD: キャンバー/ミドルハード/カービング+トリック両立・菅谷監修
+RD CV: キャンバー/ハード/RDカラーバリエーション
+RD GX: キャンバー/ハード/RD+グラファイトソール/ハイスピードカービング
 
-■ LTA-F
-キャンバー / ミドルソフトフレックス
-操作性・正確性・軽量性が特徴。センターフレックスをやや抑えめにし、キャンバー高さも控えめに設定。エッジの切り替えが素早く、繊細な動きにも滑らかに反応する高い操作性。ハードなトリックでもストレスなく踏み込める万能モデル。グラトリからカービングまで幅広く対応。
+【5問（順番厳守）】
+Q1: 性別（男性 / 女性 / 回答しない）
+Q2: メインスタイル（グラトリ中心 / カービング中心 / 両方やりたい）
+Q3: トリックの傾向（プレス・バター系 / 弾き・飛び系 / 両方）※カービング中心ならスキップしQ4へ
+Q4: キャンバー形状（キャンバー / 可変キャンバー / ダブルキャンバー / こだわりはない）
+Q5: フレックス（ソフト / ミドル / ハード / こだわりはない）
 
-■ AX-F
-キャンバー / ミドルソフトフレックス
-LTA-Fをベースに有効エッジを延長、フレックスバランスを調整。ターン時の安定感とエッジの噛みが大幅向上。スピンの導入がよりスムーズで初動が軽い。驚異的なスウィングウェイト軽量化でトリックとターン両方レベルアップしたいライダーに最適。弾き・飛び系を含むグラトリに特に向く。
+【判定の基本方針】
+グラトリ×プレス×キャンバー→LTA-F
+グラトリ×弾き×キャンバー×ミドル以上→ZERO
+グラトリ×弾き×キャンバー×ソフト→AX-F
+グラトリ×プレス×可変×ソフト→BX-F
+グラトリ×プレス×可変×ミドル→LTB
+グラトリ×弾き×可変×ソフト→BX
+グラトリ×弾き×可変×ミドル→LTY
+グラトリ×ダブル→DX
+カービング×ハード→RD GX
+カービング×それ以外→RD
+両方×キャンバー→AX-FまたはLTY
+両方×可変→LTYまたはLTV
 
-■ LTB
-可変キャンバー（SVC）/ ミドルフレックス
-安定性・操作性が特徴。ノーズ・テールにフラットゾーンを設け、着地やプレスがしやすい設計。センターキャンバーでオーリー反発を確保しつつ、ルーズでしなやかなライドフィール。プレス・バター系グラトリとオールラウンドに対応。
+【サイズ提案ルール】
+最終入力で身長(cm)と体重(kg)が与えられたら、モデルだけでなく推奨サイズ(cm)も必ず1つ提案してください。
+サイズは体重だけでなく身長・スタイル・トリック傾向・安定感重視か操作性重視かを総合して自然に判断してください。
 
-■ BX
-可変キャンバー（SVC）/ ミドルフレックス
-LTBをベースに有効エッジ延長、フレックス最適化でターン安定性とエッジグリップ向上。スピン動作の立ち上がりが軽くトリック全般の回しやすさが向上。スウィングウェイト軽量化でボードの振り替え・切り返しが軽快。弾き・飛び系グラトリ向け。
+【進行ルール】
+- 5問が終わるまでは質問のみ返す
+- 身長・体重がまだ無い段階では結果を返さない
+- 身長・体重が与えられたら、そのタイミングで最終結果を返す
+- 6問目の質問は作らない
 
-■ BX-F
-可変キャンバー（SVC）/ ソフトフレックス
-BXをベースにソフトフレックスで軽量化、回転性能が大幅向上。キャンバーの反発と安定性を維持しつつしなやかさをプラス。プレス・バター・回し系のグラトリとの相性が非常によく、軽快でリズムよく滑りたいライダーに最適。
+【出力形式（JSONのみ・厳守）】
+質問: {"phase":"question","question":"質問文","options":["A","B","C"]}
+結果: {"phase":"result","model":"モデル名","size":150,"reason":"推薦理由2〜3文","tags":["タグ1","タグ2","タグ3"]}
+`;
 
-■ DX
-ダブルキャンバー（W CAMBER）/ ミドルソフトフレックス
-軽量性・操作性が特徴。センター反発とエッジグリップを残しつつ、ノーズ・テールのロッカーがルーズさと自在性をプラス。低速でも扱いやすく、プレスやバターでの板さばきが格段にしやすい。軽快なスタイルを求めるライダーに最適。
+let history=[], messages=[], qCount=0, currentResult=null, chatHistory=[];
 
-■ LTY
-可変キャンバー（SVC）/ ミドルフレックス
-反発性・正確性・操作性が特徴。今年から可変キャンバー構造を採用。キャンバーの反発力とエッジグリップを維持しながら状況に応じてしなやかに変化。ミディアムフレックスながらノーズ・テールに張りを持たせ高速域でも挙動が安定。スピードを出したカービングからトリックまでスムーズ。ラントリ系・カービングとグラトリの両立向け。
-
-■ LTV
-可変キャンバー（SVC）/ ソフトフレックス
-反発性・正確性・操作性が特徴。今年から可変キャンバー構造採用。キャンバーの反発力と確かなエッジグリップでターン性能を確保しつつ、センターフレックスをソフトにして足元の自在性を向上。低速から高速、地形遊びまで扱いやすさが向上。
-
-■ ZERO
-キャンバー / ミドルフレックス（堀内礼監修）
-操作性・正確性が特徴。LTA-Fをベースに有効エッジを延長、スピン性能をより高次元に引き上げ。回転の初動が軽くスムーズで多方向への動きに素直に反応。驚異的なスウィングウェイト軽量化で振り回しや切り返しがより軽快。グラトリから地形遊びまでライダーの表現力を最大限に引き出す。弾き・飛び系グラトリ向けの特別モデル。
-
-■ RD
-キャンバー / ミドルハードフレックス（菅谷佑之介監修）
-反発性・正確性・操作性・滑走性が特徴。トリックとカービングに特化したシリーズ。全長に対する有効エッジ率81%のラウンド形状でターン・トリック双方の俊敏な捉えを実現。カービングとトリック両立を最高次元で目指すライダーに。
-
-■ RD CV
-キャンバー / ハードフレックス（菅谷佑之介監修）
-RDと同性能のカラーバリエーションモデル。有効エッジ率81%のラウンド形状。S/W設定なし。142cmはCVモデルのみ。
-
-■ RD GX
-キャンバー / ハードフレックス（菅谷佑之介監修）
-RDにグラファイトソールを採用し滑走性をさらに強化。雪質変化に左右されにくく高い直進性と加速性能。ハイスピードカービング重視のライダーに最適。
-
-【質問テーマ（全7問・この順番で）】
-Q1: 性別（男性 / 女性 / 回答しない）※サイズ提案に使用
-Q2: メインのライディングスタイル（グラトリ中心 / カービング中心 / 両方やりたい）
-Q3: トリックの傾向（プレス・バター系 / 弾き・飛び系 / 両方）※カービング中心の場合はスキップして「なし」とし次の質問へ
-Q4: キャンバー形状の好み（キャンバー / 可変キャンバー / ダブルキャンバー / こだわりはない）
-Q5: フレックスの好み（ソフト / ミドル / ハード / こだわりはない）
-Q6: 身長（cm）※数値で答えてもらう
-Q7: 体重（kg）※数値で答えてもらう
-
-【サイズ提案ロジック】
-体重をもとに基準サイズを算出：
-- 50kg未満 → 145cm
-- 50〜59kg → 148cm
-- 60〜69kg → 150cm
-- 70〜79kg → 152cm
-- 80kg以上 → 154cm
-グラトリ・プレス系 → -2cm調整
-カービング → +2cm調整
-
-【判定ルール】
-- グラトリ × プレス系 × キャンバー → LTA-F
-- グラトリ × 弾き飛び系 × キャンバー × ミドル以上 → ZERO
-- グラトリ × 弾き飛び系 × キャンバー × ソフト → AX-F
-- グラトリ × プレス系 × 可変キャンバー × ソフト → BX-F
-- グラトリ × プレス系 × 可変キャンバー × ミドル以上 → LTB
-- グラトリ × 弾き飛び系 × 可変キャンバー × ソフト → BX
-- グラトリ × 弾き飛び系 × 可変キャンバー × ミドル以上 → LTY
-- グラトリ × ダブルキャンバー → DX
-- カービング × キャンバー × ハード → RD GX
-- カービング × キャンバー × それ以外 → RD
-- カービング × こだわりなし → RD
-- 両方 × キャンバー → AX-F または LTY
-- 両方 × 可変キャンバー → LTY または LTV
-- こだわりなし多い → AIが総合判断
-
-【出力形式（厳守）】
-質問フェーズ: {"phase":"question","question":"質問文","options":["選択肢A","選択肢B","選択肢C"]}
-結果フェーズ: {"phase":"result","model":"モデル名","size":150,"reason":"推薦理由2〜3文","tags":["タグ1","タグ2","タグ3"]}
-必ずJSONのみ出力。マークダウン・コードブロック・その他テキスト一切不要。7問終了後に必ず結果を返す。`;
-
-let history = [];
-let messages = [];
-let qCount = 0;
-let currentResult = null;
-let chatHistory = [];
-let currentProg = 0;
-const TOTAL_Q = 7;
-
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function buildProg(cur, tot, elId) {
-  const p = document.getElementById(elId);
-  if (!p) return;
-  p.innerHTML = '';
-  for (let i = 0; i < tot; i++) {
-    const d = document.createElement('div');
-    d.className = 'pd' + (i === cur ? ' on' : i < cur ? ' done' : '');
-    p.appendChild(d);
-  }
+function buildProg(cur,tot,elId){
+  const p=document.getElementById(elId); if(!p)return; p.innerHTML='';
+  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='pd'+(i===cur?' on':i<cur?' done':'');p.appendChild(d);}
 }
 
-function renderHistory(targetId) {
-  const el = document.getElementById(targetId);
-  if (!el) return;
-  el.innerHTML = messages.map((m, i) =>
-    `<div class="history-item">
-      <div class="history-q">Q${i+1} ${m.q}</div>
-      <div class="history-a">${m.a}</div>
-    </div>`
-  ).join('') + (messages.length ? '<div class="divider"></div>' : '');
+function renderHistory(targetId){
+  const el=document.getElementById(targetId); if(!el)return;
+  el.innerHTML=messages.map((m,i)=>`<div class="history-item"><div class="history-q">Q${i+1} ${m.q}</div><div class="history-a">${m.a}</div></div>`).join('')+(messages.length?'<div class="divider"></div>':'');
 }
 
-async function callClaude(conv, system, maxTokens = 1000) {
-  const res = await fetch('/.netlify/functions/claude', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: maxTokens, system, messages: conv })
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data?.error?.message || 'APIエラー');
-  return data.content.map(b => b.text || '').join('');
+async function callClaude(conv, system, maxTokens=800){
+  const trimmed=conv.length>8?conv.slice(-8):conv;
+  const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:trimmed})});
+  const data=await res.json();
+  if(!res.ok)throw new Error(data?.error?.message||'APIエラー');
+  return data.content.map(b=>b.text||'').join('');
 }
 
-async function startQuiz() {
-  history = []; messages = []; qCount = 0; currentResult = null; chatHistory = [];
+async function startQuiz(){
+  history=[];messages=[];qCount=0;currentResult=null;chatHistory=[];
+  document.getElementById('inp-height').value='';
+  document.getElementById('inp-weight').value='';
+  document.getElementById('btn-analyze').classList.add('off');
   show('screen-loading');
-  try {
-    const init = [{ role: 'user', content: '診断を始めてください。1問目の質問をお願いします。' }];
-    const text = await callClaude(init, SYSTEM);
-    const res = JSON.parse(text.replace(/```json|```/g, '').trim());
-    history = [...init, { role: 'assistant', content: JSON.stringify(res) }];
-    qCount = 1;
-    renderQuiz(res);
-  } catch(e) {
-    alert('通信エラーが発生しました。もう一度お試しください。');
-    show('screen-intro');
-  }
+  document.getElementById('loading-txt').textContent='AI解析中...';
+  try{
+    const init=[{role:'user',content:'診断を始めてください。Q1の質問をお願いします。'}];
+    const text=await callClaude(init,SYSTEM);
+    const res=JSON.parse(text.replace(/```json|```/g,'').trim());
+    history=[...init,{role:'assistant',content:JSON.stringify(res)}];
+    qCount=1; renderQuiz(res);
+  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
 }
 
-function renderQuiz(data) {
+function renderQuiz(data){
   show('screen-quiz');
-  buildProg(qCount - 1, TOTAL_Q, 'prog');
+  buildProg(qCount-1,6,'prog');
   renderHistory('history-area');
-  document.getElementById('divider').classList.toggle('hidden', messages.length === 0);
-  document.getElementById('qn').textContent = `Q${qCount} / ${TOTAL_Q}`;
-  document.getElementById('qt').textContent = data.question || '';
-  const area = document.getElementById('opts');
-  area.innerHTML = data.options.map(opt =>
-    `<div class="opt" onclick="handleAnswer('${opt.replace(/'/g,"\\'")}',this)">${opt}</div>`
-  ).join('');
+  document.getElementById('divider').classList.toggle('hidden',messages.length===0);
+  document.getElementById('qn').textContent=`Q${qCount} / 6`;
+  document.getElementById('qt').textContent=data.question||'';
+  const area=document.getElementById('opts');
+  area.innerHTML=data.options.map(opt=>`<div class="opt" onclick="handleAnswer(this,'${opt.replace(/'/g,"\\'")}')">${opt}</div>`).join('');
 }
 
-async function handleAnswer(option, el) {
-  document.querySelectorAll('.opt').forEach(o => { o.onclick = null; });
+async function handleAnswer(el,option){
+  document.querySelectorAll('.opt').forEach(o=>o.onclick=null);
   el.classList.add('sel');
-  messages.push({ q: document.getElementById('qt').textContent, a: option });
-  await new Promise(r => setTimeout(r, 300));
-  show('screen-loading');
-  buildProg(qCount, TOTAL_Q, 'prog-loading');
-  renderHistory('history-area-loading');
-  const newHistory = [...history, { role: 'user', content: option }];
-  try {
-    const text = await callClaude(newHistory, SYSTEM);
-    const res = JSON.parse(text.replace(/```json|```/g, '').trim());
-    history = [...newHistory, { role: 'assistant', content: JSON.stringify(res) }];
-    if (res.phase === 'result') {
-      renderResult(res);
-    } else {
-      qCount++;
-      renderQuiz(res);
-    }
-  } catch(e) {
-    alert('通信エラーが発生しました。');
-    show('screen-quiz');
+  messages.push({q:document.getElementById('qt').textContent,a:option});
+  await new Promise(r=>setTimeout(r,280));
+  if(qCount>=5){
+    buildProg(5,6,'prog-body');
+    renderHistory('history-area-body');
+    show('screen-body'); return;
   }
+  show('screen-loading');
+  document.getElementById('loading-txt').textContent='AI解析中...';
+  const newHistory=[...history,{role:'user',content:option}];
+  try{
+    const text=await callClaude(newHistory,SYSTEM);
+    const res=JSON.parse(text.replace(/```json|```/g,'').trim());
+    history=[...newHistory,{role:'assistant',content:JSON.stringify(res)}];
+    if(res.phase==='question'){qCount++;renderQuiz(res);} 
+    else {currentResult=res; buildProg(5,6,'prog-body'); renderHistory('history-area-body'); show('screen-body');}
+  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
 }
 
-function renderResult(res) {
-  currentResult = res;
-  document.getElementById('r-model').textContent = res.model || '';
-  document.getElementById('r-size').textContent = res.size ? `RECOMMENDED SIZE : ${res.size}cm` : '';
-  document.getElementById('r-reason').textContent = res.reason || '';
-  const tags = res.tags || [];
-  document.getElementById('r-tags').innerHTML = tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+function checkBody(){
+  const h=parseFloat(document.getElementById('inp-height').value);
+  const w=parseFloat(document.getElementById('inp-weight').value);
+  const btn=document.getElementById('btn-analyze');
+  (h>=140&&h<=210&&w>=30&&w<=150)?btn.classList.remove('off'):btn.classList.add('off');
+}
 
-  // AIコメント初期化
-  document.getElementById('ai-comment').innerHTML =
-    '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>コメント生成中...</span></div>';
+function backFromBody(){show('screen-quiz');}
 
-  // ライダー
-  const riders = RIDERS[res.model] || [];
-  const riderWrap = document.getElementById('riders-wrap');
-  if (riders.length) {
-    document.getElementById('rider-list').innerHTML = riders.map(r =>
-      `<a class="rider" href="${r.u}" target="_blank" rel="noopener">
-        <div class="rider-icon">${r.n.replace('@','').slice(0,2).toUpperCase()}</div>
-        <div class="rider-name">${r.n}</div>
-      </a>`
-    ).join('');
+async function submitBody(){
+  const h=parseFloat(document.getElementById('inp-height').value);
+  const w=parseFloat(document.getElementById('inp-weight').value);
+  if(!(h>=140&&h<=210&&w>=30&&w<=150))return;
+  messages.push({q:'身長',a:`${h}cm`});
+  messages.push({q:'体重',a:`${w}kg`});
+  show('screen-loading');
+  document.getElementById('loading-txt').textContent='AI解析中...';
+  const newHistory=[...history,{role:'user',content:`身長:${h}cm 体重:${w}kg。ここまでの回答を総合して、最適なモデルを1つと推奨サイズ(cm)を1つ、指定のJSON形式で返してください。`}];
+  try{
+    const text=await callClaude(newHistory,SYSTEM);
+    currentResult=JSON.parse(text.replace(/```json|```/g,'').trim());
+    history=[...newHistory,{role:'assistant',content:JSON.stringify(currentResult)}];
+    renderResult(currentResult);
+  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');return;}
+}
+
+
+function renderResult(res){
+  document.getElementById('r-model').textContent=res.model||'';
+  document.getElementById('r-size').textContent=res.size?`RECOMMENDED SIZE : ${res.size}cm`:'';
+  document.getElementById('r-reason').textContent=res.reason||'';
+  document.getElementById('r-tags').innerHTML=(res.tags||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
+  document.getElementById('ai-comment').innerHTML='<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>コメント生成中...</span></div>';
+  const riders=RIDERS[res.model]||[];
+  const riderWrap=document.getElementById('riders-wrap');
+  if(riders.length){
+    document.getElementById('rider-list').innerHTML=riders.map(r=>`<a class="rider" href="${r.u}" target="_blank" rel="noopener"><div class="rider-icon">${r.n.replace('@','').slice(0,2).toUpperCase()}</div><div class="rider-name">${r.n}</div></a>`).join('');
     riderWrap.classList.remove('hidden');
-  } else {
-    riderWrap.classList.add('hidden');
-  }
-
-  // チャット初期化
-  document.getElementById('chat-messages').innerHTML = '';
-  chatHistory = [];
-
+  }else{riderWrap.classList.add('hidden');}
+  document.getElementById('chat-messages').innerHTML='';
+  chatHistory=[];
   show('screen-result');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // AIコメント非同期生成
+  window.scrollTo({top:0,behavior:'smooth'});
   generateAIComment(res);
 }
 
-async function generateAIComment(res) {
-  const el = document.getElementById('ai-comment');
-  const qaLog = messages.map((m, i) => `Q${i+1}: ${m.q} → ${m.a}`).join('\n');
-  const system = `あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、推奨モデルへの熱量のあるひとことコメントを生成してください。スノーボーダー目線で120〜160文字の自然な日本語で。専門用語OK。`;
-  const prompt = `診断結果: ${res.model}\nユーザー回答:\n${qaLog}\n推薦理由: ${res.reason}\nこのユーザーへのコメントを生成してください。`;
-  try {
-    const comment = await callClaude([{ role: 'user', content: prompt }], system, 400);
-    el.textContent = comment.trim();
-  } catch(e) {
-    el.textContent = `${res.model}はあなたのスタイルに最適な一本です。このボードの特性を最大限に活かして、さらなるライディングを楽しんでください。`;
+async function generateAIComment(res){
+  const el=document.getElementById('ai-comment');
+  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\n');
+  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、推奨モデルへの熱量のあるコメントを生成してください。スノーボーダー目線で120〜160文字の自然な日本語で。専門用語OK。`;
+  const prompt=`診断結果: ${res.model}\nサイズ: ${res.size}cm\nユーザー回答:\n${qaLog}\n推薦理由: ${res.reason}\nコメントを生成してください。`;
+  try{
+    const comment=await callClaude([{role:'user',content:prompt}],system,400);
+    el.textContent=comment.trim();
+  }catch(e){
+    el.textContent=`${res.model}はあなたのスタイルに最適な一本です。このボードの特性を最大限に活かして、さらなるライディングを楽しんでください。`;
   }
 }
 
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  sendBtn.style.opacity = '.35';
-  sendBtn.style.pointerEvents = 'none';
-  const chatArea = document.getElementById('chat-messages');
-  const userDiv = document.createElement('div');
-  userDiv.className = 'chat-msg user';
-  userDiv.textContent = msg;
-  chatArea.appendChild(userDiv);
-  const loadDiv = document.createElement('div');
-  loadDiv.className = 'chat-msg loading';
-  loadDiv.innerHTML = '<div class="dot-pulse"><span></span><span></span><span></span></div>';
-  chatArea.appendChild(loadDiv);
-  chatArea.scrollTop = chatArea.scrollHeight;
-  const qaLog = messages.map((m, i) => `Q${i+1}: ${m.q} → ${m.a}`).join('\n');
-  const system = `あなたはSPREAD SNOWBOARDSのスノーボード専門家アドバイザーです。診断結果: ${currentResult?.model || ''}。ユーザー回答:\n${qaLog}\n推薦理由: ${currentResult?.reason || ''}\n150文字以内で簡潔に答えてください。マークダウン不要。`;
-  chatHistory.push({ role: 'user', content: msg });
-  try {
-    const reply = await callClaude(chatHistory, system, 400);
-    chatHistory.push({ role: 'assistant', content: reply });
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const sendBtn=document.getElementById('chat-send');
+  const msg=input.value.trim();
+  if(!msg||sendBtn.disabled)return;
+  input.value=''; sendBtn.disabled=true;
+  const chatArea=document.getElementById('chat-messages');
+  const userDiv=document.createElement('div'); userDiv.className='chat-msg user'; userDiv.textContent=msg; chatArea.appendChild(userDiv);
+  const loadDiv=document.createElement('div'); loadDiv.className='chat-msg loading'; loadDiv.innerHTML='<div class="dot-pulse"><span></span><span></span><span></span></div>'; chatArea.appendChild(loadDiv);
+  chatArea.scrollTop=chatArea.scrollHeight;
+  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\n');
+  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家アドバイザーです。診断結果: ${currentResult?.model||''}。推薦理由: ${currentResult?.reason||''}\nユーザー回答:\n${qaLog}\n150文字以内で簡潔に答えてください。マークダウン不要。`;
+  const trimmedChat=chatHistory.length>6?chatHistory.slice(-6):[...chatHistory];
+  trimmedChat.push({role:'user',content:msg});
+  try{
+    const reply=await callClaude(trimmedChat,system,400);
+    chatHistory.push({role:'user',content:msg}); chatHistory.push({role:'assistant',content:reply});
     loadDiv.remove();
-    const aiDiv = document.createElement('div');
-    aiDiv.className = 'chat-msg ai';
-    aiDiv.textContent = reply.trim();
-    chatArea.appendChild(aiDiv);
-  } catch(e) {
+    const aiDiv=document.createElement('div'); aiDiv.className='chat-msg ai'; aiDiv.textContent=reply.trim(); chatArea.appendChild(aiDiv);
+  }catch(e){
     loadDiv.remove();
-    const errDiv = document.createElement('div');
-    errDiv.className = 'chat-msg ai';
-    errDiv.textContent = '申し訳ありません、もう一度お試しください。';
-    chatArea.appendChild(errDiv);
-    chatHistory.pop();
+    const errDiv=document.createElement('div'); errDiv.className='chat-msg ai'; errDiv.textContent='申し訳ありません、もう一度お試しください。'; chatArea.appendChild(errDiv);
   }
-  chatArea.scrollTop = chatArea.scrollHeight;
-  sendBtn.style.opacity = '1';
-  sendBtn.style.pointerEvents = 'auto';
-  input.focus();
+  chatArea.scrollTop=chatArea.scrollHeight; sendBtn.disabled=false; input.focus();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('chat-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') sendChat();
-  });
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
 });
 
-function resetQuiz() {
-  history = []; messages = []; qCount = 0; currentResult = null; chatHistory = [];
+function resetQuiz(){
+  history=[];messages=[];qCount=0;currentResult=null;chatHistory=[];
+  document.getElementById('inp-height').value='';
+  document.getElementById('inp-weight').value='';
+  document.getElementById('btn-analyze').classList.add('off');
   show('screen-intro');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>
