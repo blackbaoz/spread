@@ -134,8 +134,8 @@
     <div class="prog" id="prog-body"></div>
     <div id="history-area-body"></div>
     <div class="divider"></div>
-    <div class="qn">Q5 / 6</div>
-    <div class="qt">身長と体重を教えてください</div>
+    <div class="qn" id="body-qn"></div>
+    <div class="qt" id="body-qt"></div>
     <div class="body-inputs">
       <div class="input-group">
         <label>身長</label>
@@ -386,6 +386,19 @@ async function handleAnswer(el,option){
   }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
 }
 
+
+function showBodyScreen(){
+  show('screen-body');
+  const totalSteps = messages.length + 1;
+  buildProg(messages.length, totalSteps, 'prog-body');
+  renderHistory('history-area-body');
+  const qn = document.getElementById('body-qn');
+  const qt = document.getElementById('body-qt');
+  if(qn) qn.textContent = `Q${messages.length + 1} / ${totalSteps}`;
+  if(qt) qt.textContent = '最後に、あなたの身長(cm)と体重(kg)を教えてください。';
+  checkBody();
+}
+
 function checkBody(){
   const h=parseFloat(document.getElementById('inp-height').value);
   const w=parseFloat(document.getElementById('inp-weight').value);
@@ -399,6 +412,7 @@ async function submitBody(){
   const h=parseFloat(document.getElementById('inp-height').value);
   const w=parseFloat(document.getElementById('inp-weight').value);
   if(!(h>=140&&h<=210&&w>=30&&w<=150))return;
+  messages = messages.filter(m => m.q !== '身長' && m.q !== '体重');
   messages.push({q:'身長',a:`${h}cm`});
   messages.push({q:'体重',a:`${w}kg`});
   show('screen-loading');
@@ -473,6 +487,14 @@ async function sendChat(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+  ['inp-height','inp-weight'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.addEventListener('keydown',e=>{
+        if(e.key==='Enter' && !document.getElementById('btn-analyze').classList.contains('off')) submitBody();
+      });
+    }
+  });
 });
 
 function resetQuiz(){
