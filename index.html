@@ -134,7 +134,7 @@
     <div class="prog" id="prog-body"></div>
     <div id="history-area-body"></div>
     <div class="divider"></div>
-    <div class="qn">Q6 / 6</div>
+    <div class="qn">Q5 / 6</div>
     <div class="qt">身長と体重を教えてください</div>
     <div class="body-inputs">
       <div class="input-group">
@@ -366,9 +366,8 @@ async function handleAnswer(el,option){
   messages.push({q:document.getElementById('qt').textContent,a:option});
   await new Promise(r=>setTimeout(r,280));
   if(qCount>=5){
-    buildProg(5,6,'prog-body');
-    renderHistory('history-area-body');
-    show('screen-body'); return;
+    showBodyScreen();
+    return;
   }
   show('screen-loading');
   document.getElementById('loading-txt').textContent='AI解析中...';
@@ -377,8 +376,13 @@ async function handleAnswer(el,option){
     const text=await callClaude(newHistory,SYSTEM);
     const res=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
     history=[...newHistory,{role:'assistant',content:JSON.stringify(res)}];
-    if(res.phase==='question'){qCount++;renderQuiz(res);} 
-    else {currentResult=res; buildProg(5,6,'prog-body'); renderHistory('history-area-body'); show('screen-body');}
+    if(res.phase==='question'){
+      qCount++;
+      renderQuiz(res);
+    } else {
+      currentResult=res;
+      showBodyScreen();
+    }
   }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
 }
 
