@@ -378,38 +378,51 @@ function getCatalogContext(){
   }).join('\n');
 }
 
-async function generateClaudeReasons(data){
-  const system = `あなたはSPREAD SNOWBOARDSの専門アドバイザーです。
-候補やサイズはすでに確定しているので、絶対に変更しないでください。
-カタログのニュアンスを反映しつつ、確定している第1候補・第2候補についてのみ説明してください。
-ZEROを高速カービング主軸として扱ってはいけません。
-RDはトリックとカービング両立の中心、RD GXはRDより高速域寄り、AX-FとZEROはグラトリ寄りという理解を守ってください。
-回答はJSONのみで返してください。`;
-  const prompt = `【モデル情報】
-${getCatalogContext()}
+async function generateClaudeReasons(data) {
+  const system = `You are a snowboard advisor for SPREAD SNOWBOARDS.
+You will receive:
+- the user's answers
+- the final confirmed first and second recommendations
+- the final confirmed sizes
+Your job:
+1. Write WHY THIS BOARD in Japanese with 3 short sections:
+   - style
+   - flex
+   - shape
+2. Write AI DIAGNOSIS in Japanese in 120-220 characters.
+Rules:
+- Never change model names or sizes
+- Never mention any other model or size
+- Keep the explanation consistent with the confirmed recommendations
+- Return JSON only
+Format:
+{"why":{"style":"...","flex":"...","shape":"..."},"diagnosis":"..."}`;
+  const a = data.answers;
+  const prompt = `Answers:
+gender: ${a.gender || ''}
+style: ${a.style || ''}
+trick: ${a.trick || ''}
+camber: ${a.camber || ''}
+flex: ${a.flex || ''}
+height: ${a.height || ''}
+weight: ${a.weight || ''}
 
-【ユーザー回答】
-性別: ${data.answers.gender}
-スタイル: ${data.answers.style}
-トリック傾向: ${data.answers.trick || 'スキップ'}
-キャンバー: ${data.answers.camber}
-フレックス: ${data.answers.flex}
-身長: ${data.answers.height}cm
-体重: ${data.answers.weight}kg
+First recommendation:
+model: ${data.first.model}
+size: ${data.first.size}cm
 
-【確定候補】
-第1候補: ${data.first.model} ${data.first.size}cm
-第2候補: ${data.second.model} ${data.second.size}cm
+Second recommendation:
+model: ${data.second.model}
+size: ${data.second.size}cm`;
 
-次のJSONを返してください:
-{"first_reason":"120文字前後","second_reason":"120文字前後","diagnosis":"180〜260文字","why_style":"80文字以内","why_flex":"80文字以内","why_shape":"80文字以内"}
-
-制約:
-- 候補名とサイズは上記確定値のみ使う
-- 第1候補と第2候補の違いが分かるようにする
-- カタログの方向性に反する説明を書かない`;
-  const raw = await callClaude([{role:'user', content:prompt}], system, 800);
-  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+  try {
+    const text = await callClaude([{role:'user',content:prompt}], system, 700);
+    const cleaned = text.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(cleaned);
+    return parsed;
+  } catch (e) {
+    return null;
+  }
 }
 
 async function askClaudeAboutResult(userMessage, data){
@@ -738,22 +751,22 @@ function renderResult(data){
   document.getElementById('first-model').textContent = first.model;
   document.getElementById('first-size').textContent = `RECOMMENDED SIZE : ${first.size}cm`;
   document.getElementById('first-tags').innerHTML = MODELS[first.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
-  document.getElementById('first-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('first-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
   document.getElementById('first-link').href = PRODUCT_LINKS[first.model];
   document.getElementById('first-rd-note').classList.toggle('hidden', !first.model.includes('RD'));
 
   document.getElementById('second-model').textContent = second.model;
   document.getElementById('second-size').textContent = `RECOMMENDED SIZE : ${second.size}cm`;
   document.getElementById('second-tags').innerHTML = MODELS[second.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
-  document.getElementById('second-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('second-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
   document.getElementById('second-link').href = PRODUCT_LINKS[second.model];
   document.getElementById('second-rd-note').classList.toggle('hidden', !second.model.includes('RD'));
 
-  document.getElementById('why-style').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
-  document.getElementById('why-flex').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
-  document.getElementById('why-shape').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('why-style').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
+  document.getElementById('why-flex').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
+  document.getElementById('why-shape').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
 
-  document.getElementById('diagnosis-comment').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('diagnosis-comment').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>Generating analysis...</span></div>';
 
   const riderCandidates = [...(RIDERS[first.model] || []), ...(RIDERS[second.model] || [])];
   const unique = [];
@@ -783,6 +796,7 @@ function renderResult(data){
     else document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
 
     const why = buildWhyTexts(data.answers, first.model);
+  const fallbackDiagnosis = buildComment(data.answers, first.model, first.size, second.model, second.size);
     document.getElementById('why-style').textContent = generated.why_style || why.styleText;
     document.getElementById('why-flex').textContent = generated.why_flex || why.flexText;
     document.getElementById('why-shape').textContent = generated.why_shape || why.shapeText;
@@ -791,6 +805,7 @@ function renderResult(data){
     document.getElementById('second-reason').textContent = MODELS[second.model].reason;
     document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
     const why = buildWhyTexts(data.answers, first.model);
+  const fallbackDiagnosis = buildComment(data.answers, first.model, first.size, second.model, second.size);
     document.getElementById('why-style').textContent = why.styleText;
     document.getElementById('why-flex').textContent = why.flexText;
     document.getElementById('why-shape').textContent = why.shapeText;
