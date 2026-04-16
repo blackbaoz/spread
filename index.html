@@ -97,6 +97,10 @@
     .divider-line { height: 1px; background: #222; margin: 1.5rem 0; }
     .btn-retry { display: block; width: 100%; background: transparent; border: 1px solid #2a2a2a; color: #555; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 2px; cursor: pointer; text-align: center; transition: all .2s; user-select: none; }
     .btn-retry:hover { border-color: #666; color: #f0f0f0; }
+
+    .why-point { background: #111; border: 1px solid #222; padding: 12px 14px; margin-top: 8px; }
+    .why-point-label { font-size: 10px; letter-spacing: 2px; color: #666; margin-bottom: 6px; }
+    .why-point-text { font-size: 13px; color: #cfcfcf; line-height: 1.7; }
     .hidden { display: none !important; }
   </style>
 </head>
@@ -171,14 +175,33 @@
       <div class="result-size" id="r-size"></div>
       <div class="result-tags" id="r-tags"></div>
       <div class="result-reason" id="r-reason"></div>
+
+      <div id="why-wrap" style="margin-top:16px;">
+        <div class="ai-comment-label">WHY THIS BOARD</div>
+        <div id="why-points"></div>
+      </div>
+
       <div id="rd-size-note" class="hidden" style="margin-top:12px; font-size:13px; color:#aaa; line-height:1.8;">
-        RDには通常モデルに加えて、<br>
+        RDシリーズには通常モデルに加えて、<br>
         <strong>W（ワイド）・S（スーパーワイド）モデル</strong>もラインナップされています。<br>
-        足が大きい方や、より深いカービングをしたい方にはこちらもおすすめです。
+        通常モデルもワイドモデルもあるので、足が大きい方や、より深いカービングをしたい方はそちらもぜひご確認ください。
       </div>
+
       <div id="product-link-wrap" class="hidden" style="margin-top:16px;">
-        <a id="product-link" href="#" target="_blank" rel="noopener" class="btn-start">商品ページを見る →</a>
+        <a id="product-link" href="#" target="_blank" rel="noopener" class="btn-start">第1候補の商品ページを見る →</a>
       </div>
+
+      <div id="second-wrap" class="hidden" style="margin-top:20px; padding-top:20px; border-top:1px solid #222;">
+        <div class="result-best-label" style="color:#888;">SECOND OPTION</div>
+        <div class="result-model" id="r-model-2" style="font-size:42px; color:#d8d8d8;"></div>
+        <div class="result-size" id="r-size-2"></div>
+        <div class="result-tags" id="r-tags-2"></div>
+        <div class="result-reason" id="r-reason-2"></div>
+        <div id="product-link-wrap-2" class="hidden" style="margin-top:16px;">
+          <a id="product-link-2" href="#" target="_blank" rel="noopener" class="btn-start">第2候補の商品ページを見る →</a>
+        </div>
+      </div>
+
       <div class="ai-comment-wrap">
         <div class="ai-comment-label">AI DIAGNOSIS</div>
         <div class="ai-comment-body" id="ai-comment">
@@ -335,6 +358,7 @@ function getAnswerByKeyword(keyword){
   return item ? item.a : '';
 }
 
+
 const MODEL_SIZES = {
   'LTA-F': [146, 153, 156],
   'AX-F': [150, 152, 154, 156],
@@ -349,7 +373,6 @@ const MODEL_SIZES = {
   'RD CV': [142, 145, 148, 150, 152],
   'RD GX': [142, 146, 149, 150, 151, 152, 154, 157, 160, 162, 163]
 };
-
 
 const MODEL_CAMBER_MAP = {
   'LTA-F': 'キャンバー',
@@ -366,60 +389,74 @@ const MODEL_CAMBER_MAP = {
   'DX': 'ダブルキャンバー'
 };
 
-function getModelByConstraints({ gender, style, trick, camber, flex }) {
-  const hasCarving = style.includes('カービング') || style.includes('両方');
-  const prefersPress = trick.includes('プレス');
-  const prefersJump = trick.includes('弾き');
-  const wantsSoft = flex.includes('ソフト');
-  const wantsHard = flex.includes('ハード');
-  const wantsMiddle = flex.includes('ミドル');
+const MODEL_FLEX_RANK = {
+  'DX': 1,
+  'LTV': 2,
+  'LTY': 3,
+  'BX-F': 4,
+  'AX-F': 5,
+  'ZERO': 6,
+  'BX': 7,
+  'LTB': 8,
+  'RD': 9,
+  'RD CV': 9,
+  'RD GX': 10
+};
 
-  if (gender === '女性') {
-    if (hasCarving) {
-      return 'RD';
-    }
-    if (camber.includes('可変')) {
-      return wantsSoft ? 'LTV' : 'LTY';
-    }
-    if (camber.includes('キャンバー')) {
-      return 'RD';
-    }
-    if (camber.includes('ダブル')) {
-      return 'RD';
-    }
-    return wantsSoft ? 'LTV' : 'LTY';
+const MODEL_REASON_LIBRARY = {
+  'DX': {
+    tags: ['SOFT FEEL', 'DOUBLE CAMBER', 'EASY CONTROL'],
+    points: ['しなやかでルーズな乗り味が出しやすい', '低速域でも板さばきしやすい', 'プレスやバターとの相性が高い']
+  },
+  'LTV': {
+    tags: ['SOFT FLEX', 'WOMEN', 'EASY CONTROL'],
+    points: ['女性向けの中でも柔らかく扱いやすい', '低速から地形遊びまで動かしやすい', '足元の自在性を重視しやすい']
+  },
+  'LTY': {
+    tags: ['BALANCE', 'WOMEN', 'RESPONSE'],
+    points: ['女性向けで安定感と反発のバランスが良い', 'ターンとトリックの切り替えがしやすい', 'LTVより少ししっかりした乗り味']
+  },
+  'BX-F': {
+    tags: ['SOFT FLEX', 'PRESS', 'LIGHT SWING'],
+    points: ['可変キャンバーの中でも柔らかく自由度が高い', 'プレス・バター・回し系に合わせやすい', '軽いスウィングで動かしやすい']
+  },
+  'AX-F': {
+    tags: ['CAMBER', 'SPIN', 'TURN UPGRADE'],
+    points: ['グラトリ寄りだがターン性能も伸ばしやすい', '初動が軽くスピン導入がしやすい', '比較的ソフト寄りで扱いやすい']
+  },
+  'ZERO': {
+    tags: ['CAMBER', 'SPIN', 'TRICK FOCUS'],
+    points: ['弾き・飛び系のトリック性能を優先しやすい', 'スピン精度と軽快さを出しやすい', 'グラトリ色が強い']
+  },
+  'BX': {
+    tags: ['VARIABLE CAMBER', 'SPIN', 'EDGE GRIP'],
+    points: ['可変キャンバーで回しやすさと安定性を両立', '弾き・回転系のグラトリと相性が良い', 'ターン時のエッジグリップも出しやすい']
+  },
+  'LTB': {
+    tags: ['VARIABLE CAMBER', 'PRESS', 'BALANCE'],
+    points: ['可変キャンバーの中で安定性と操作性のバランスが良い', 'プレス・バター系を扱いやすい', '遊びやすさと安心感を両立しやすい']
+  },
+  'RD': {
+    tags: ['TURN x TRICK', 'CONTROL', 'ALLROUND'],
+    points: ['トリックとカービングを高い次元で両立しやすい', '「両方やりたい」に最も合いやすい中心モデル', 'グラトリ専用ではなく総合力を重視した設計']
+  },
+  'RD CV': {
+    tags: ['TURN x TRICK', 'COLORWAY', 'ALLROUND'],
+    points: ['RDと同じ性能でカラー違いの選択肢', 'トリックとカービングを両立しやすい', 'RDの乗り味が好みに合う人向け']
+  },
+  'RD GX': {
+    tags: ['HIGH SPEED', 'CARVING', 'GRAPHITE'],
+    points: ['RD系の中でも高速域と滑走性を強めたモデル', 'より強いカービング性能を求める人向け', '直進性と加速感を重視しやすい']
+  },
+  'LTA-F': {
+    tags: ['CAMBER', 'BALANCE', 'CONTROL'],
+    points: ['キャンバーの反発と安定感を活かしつつ扱いやすい', '繊細な動きにも反応しやすい', '自由度とコントロール性のバランスが良い']
   }
+};
 
-  if (hasCarving) {
-    return wantsHard ? 'RD GX' : 'RD';
-  }
-
-  if (camber.includes('ダブル')) {
-    return 'DX';
-  }
-
-  if (camber.includes('可変')) {
-    if (prefersPress) return wantsSoft ? 'BX-F' : 'LTB';
-    return 'BX';
-  }
-
-  if (camber.includes('キャンバー')) {
-    if (prefersPress) return 'LTA-F';
-    if (wantsSoft) return 'AX-F';
-    return 'ZERO';
-  }
-
-  if (prefersPress) return 'LTA-F';
-  if (prefersJump && wantsSoft) return 'AX-F';
-  return 'ZERO';
-}
-
-function enforceCamberConsistency(res, gender, style, trick, camber, flex) {
-  if (!res.model || !camber || camber.includes('こだわりはない')) return res;
-  const expectedCamber = MODEL_CAMBER_MAP[res.model];
-  if (expectedCamber === camber) return res;
-  res.model = getModelByConstraints({ gender, style, trick, camber, flex });
-  return res;
+function getAnswerByKeyword(keyword){
+  const item = messages.find(m => m.q.includes(keyword));
+  return item ? item.a : '';
 }
 
 function getNearestAllowedSize(model, size){
@@ -430,67 +467,152 @@ function getNearestAllowedSize(model, size){
   return allowed.reduce((prev, curr) => Math.abs(curr - numericSize) < Math.abs(prev - numericSize) ? curr : prev, allowed[0]);
 }
 
-function normalizeResult(res){
-  if(!res || typeof res !== 'object') return res;
-
-  const gender = getAnswerByKeyword('性別');
-  const style = getAnswerByKeyword('メインスタイル') || '';
-  const trick = getAnswerByKeyword('トリックの傾向') || '';
-  const camber = getAnswerByKeyword('キャンバー形状') || '';
-  const flex = getAnswerByKeyword('フレックス') || '';
-
+function scoreModel(model, ctx){
+  const {gender, style, trick, camber, flex} = ctx;
+  let score = 0;
   const hasCarving = style.includes('カービング') || style.includes('両方');
-  const isWomenOnlyModel = res.model === 'LTV' || res.model === 'LTY';
+  const wantsBoth = style.includes('両方');
+  const wantsDouble = camber.includes('ダブル');
+  const wantsVariable = camber.includes('可変');
+  const wantsCamber = camber.includes('キャンバー');
+  const noCamber = camber.includes('こだわりはない');
+  const wantsSoft = flex.includes('ソフト');
+  const wantsHard = flex.includes('ハード');
+  const wantsMiddle = flex.includes('ミドル');
+  const noFlex = flex.includes('こだわりはない');
+  const isFemale = gender === '女性';
+  const isMaleOrUnknown = !isFemale;
 
-  if(gender === '女性'){
-    if(hasCarving){
-      res.model = 'RD';
-    }else{
-      const softPreferred = flex.includes('ソフト') || flex.includes('こだわりはない');
-      const variablePreferred = camber.includes('可変') || camber.includes('こだわりはない');
-      res.model = (softPreferred || variablePreferred) ? 'LTV' : 'LTY';
-    }
+  if ((model === 'LTV' || model === 'LTY') && isMaleOrUnknown) score -= 1000;
+  if (wantsDouble && model !== 'DX') score -= 120;
+  if (wantsDouble && model === 'DX') score += 220;
 
-    const baseTags = {
-      'RD': ['CARVING', 'CONTROL', 'STABILITY'],
-      'LTV': ['SOFT FLEX', 'EASY CONTROL', 'FREESTYLE'],
-      'LTY': ['BALANCE', 'RESPONSE', 'ALLROUND']
-    };
-    res.tags = baseTags[res.model] || res.tags || [];
-  } else if(isWomenOnlyModel){
-    if(hasCarving){
-      res.model = (style.includes('カービング') && flex.includes('ハード')) ? 'RD GX' : 'RD';
-    } else if(camber.includes('ダブル')){
-      res.model = 'DX';
-    } else if(camber.includes('キャンバー')){
-      if(trick.includes('プレス')){
-        res.model = 'LTA-F';
-      } else if(flex.includes('ソフト')){
-        res.model = 'AX-F';
-      } else {
-        res.model = 'ZERO';
-      }
-    } else if(camber.includes('可変')){
-      if(trick.includes('プレス')){
-        res.model = flex.includes('ソフト') ? 'BX-F' : 'LTB';
-      } else {
-        res.model = 'BX';
-      }
-    } else {
-      res.model = hasCarving ? 'RD' : 'AX-F';
-    }
+  if (!noCamber) {
+    if (MODEL_CAMBER_MAP[model] === camber) score += 60;
+    else score -= 30;
   }
 
-  res = enforceCamberConsistency(res, gender, style, trick, camber, flex);
-
-  if(res.model){
-    res.size = getNearestAllowedSize(res.model, res.size);
+  if (wantsBoth || style.includes('カービング')) {
+    if (model === 'RD') score += 120;
+    if (model === 'RD GX') score += wantsHard ? 140 : 110;
+    if (model === 'RD CV') score += 90;
+    if (['AX-F','ZERO','BX','BX-F','LTB','LTA-F'].includes(model)) score -= 25;
   }
 
-  return res;
+  if (style.includes('グラトリ')) {
+    if (['AX-F','ZERO','BX','BX-F','LTB','LTA-F','DX'].includes(model)) score += 60;
+    if (model === 'RD') score += 20;
+  }
+
+  if (trick.includes('プレス')) {
+    if (['DX','BX-F','LTB','LTA-F'].includes(model)) score += 45;
+    if (['ZERO','RD GX'].includes(model)) score -= 10;
+  }
+
+  if (trick.includes('弾き')) {
+    if (['ZERO','AX-F','BX','RD','RD GX'].includes(model)) score += 45;
+  }
+
+  const rank = MODEL_FLEX_RANK[model];
+  if (!noFlex && rank) {
+    if (wantsSoft) score -= Math.abs(rank - 3) * 10;
+    if (wantsMiddle) score -= Math.abs(rank - 6) * 8;
+    if (wantsHard) score -= Math.abs(rank - 9.5) * 12;
+  }
+
+  if (isFemale) {
+    if (['LTV','LTY'].includes(model)) score += 45;
+    if (hasCarving && ['RD','RD GX'].includes(model)) score += 40;
+  }
+
+  return score;
 }
 
+function rankModels(ctx){
+  const models = Object.keys(MODEL_SIZES);
+  return models
+    .map(model => ({model, score: scoreModel(model, ctx)}))
+    .sort((a,b) => b.score - a.score)
+    .map(x => x.model);
+}
 
+function normalizeSingleCandidate(model, size, ctx){
+  let normalizedModel = model;
+  if (!MODEL_SIZES[normalizedModel]) {
+    normalizedModel = rankModels(ctx)[0];
+  }
+
+  if ((normalizedModel === 'LTV' || normalizedModel === 'LTY') && ctx.gender !== '女性') {
+    normalizedModel = rankModels(ctx).find(m => m !== 'LTV' && m !== 'LTY') || 'RD';
+  }
+
+  if (ctx.camber && !ctx.camber.includes('こだわりはない')) {
+    const target = MODEL_CAMBER_MAP[normalizedModel];
+    if (target !== ctx.camber) {
+      normalizedModel = rankModels(ctx).find(m => MODEL_CAMBER_MAP[m] === ctx.camber && !(ctx.gender !== '女性' && ['LTV','LTY'].includes(m))) || normalizedModel;
+    }
+  }
+
+  if (ctx.style.includes('両方') || ctx.style.includes('カービング')) {
+    if (ctx.gender !== '女性') {
+      if (!['RD','RD CV','RD GX','DX'].includes(normalizedModel) && !ctx.camber.includes('ダブル')) {
+        normalizedModel = ctx.flex.includes('ハード') ? 'RD GX' : 'RD';
+      }
+    } else {
+      if (ctx.camber.includes('ダブル')) {
+        normalizedModel = 'DX';
+      } else if (ctx.style.includes('カービング')) {
+        normalizedModel = ctx.flex.includes('ハード') ? 'RD GX' : 'RD';
+      }
+    }
+  }
+
+  const normalizedSize = getNearestAllowedSize(normalizedModel, size);
+  return { model: normalizedModel, size: normalizedSize };
+}
+
+function buildFinalCandidates(raw){
+  const ctx = {
+    gender: getAnswerByKeyword('性別') || '',
+    style: getAnswerByKeyword('メインスタイル') || '',
+    trick: getAnswerByKeyword('トリックの傾向') || '',
+    camber: getAnswerByKeyword('キャンバー形状') || '',
+    flex: getAnswerByKeyword('フレックス') || ''
+  };
+
+  const aiPrimaryModel = raw.primary_model || raw.model || '';
+  const aiPrimarySize = raw.primary_size || raw.size;
+  const aiSecondaryModel = raw.secondary_model || '';
+  const aiSecondarySize = raw.secondary_size || '';
+
+  let primary = normalizeSingleCandidate(aiPrimaryModel, aiPrimarySize, ctx);
+
+  const ranked = rankModels(ctx).filter(m => m !== primary.model);
+  let secondarySeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondaryModel : (ranked[0] || primary.model);
+  let secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondarySize : (MODEL_SIZES[secondarySeed] ? MODEL_SIZES[secondarySeed][0] : primary.size);
+  let secondary = normalizeSingleCandidate(secondarySeed, secondarySizeSeed, ctx);
+
+  if (secondary.model === primary.model) {
+    const alt = ranked.find(m => m !== primary.model) || primary.model;
+    secondary = normalizeSingleCandidate(alt, MODEL_SIZES[alt]?.[0], ctx);
+  }
+
+  const pLib = MODEL_REASON_LIBRARY[primary.model] || { tags: raw.tags || [], points: [] };
+  const sLib = MODEL_REASON_LIBRARY[secondary.model] || { tags: [], points: [] };
+
+  return {
+    phase: 'result',
+    primary_model: primary.model,
+    primary_size: primary.size,
+    secondary_model: secondary.model,
+    secondary_size: secondary.size,
+    tags: Array.isArray(raw.tags) && raw.tags.length ? raw.tags : pLib.tags,
+    reason: raw.reason || '',
+    secondary_reason: raw.secondary_reason || '',
+    why_points: pLib.points.slice(0, 3),
+    secondary_tags: sLib.tags
+  };
+}
 async function callClaude(conv, system, maxTokens=800){
   const trimmed=conv.length>8?conv.slice(-8):conv;
   const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:trimmed})});
@@ -583,10 +705,10 @@ async function submitBody(){
   messages.push({q:'体重',a:`${w}kg`});
   show('screen-loading');
   document.getElementById('loading-txt').textContent='AI解析中...';
-  const newHistory=[...history,{role:'user',content:`身長:${h}cm 体重:${w}kg。ここまでの回答を総合して、最適なモデルを1つと推奨サイズ(cm)を1つ、指定のJSON形式で返してください。`}];
+  const newHistory=[...history,{role:'user',content:`身長:${h}cm 体重:${w}kg。ここまでの回答を総合して、第1候補と第2候補をそれぞれ異なるモデルで提案し、各候補の推奨サイズ(cm)も1つずつ、指定のJSON形式で返してください。`}];
   try{
     const text=await callClaude(newHistory,SYSTEM);
-    currentResult=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
+    currentResult=buildFinalCandidates(JSON.parse(text.replace(/```json|```/g,'').trim()));
     history=[...newHistory,{role:'assistant',content:JSON.stringify(currentResult)}];
     renderResult(currentResult);
   }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');return;}
@@ -594,18 +716,22 @@ async function submitBody(){
 
 
 function renderResult(res){
-  document.getElementById('r-model').textContent=res.model||'';
-  document.getElementById('r-size').textContent=res.size?`RECOMMENDED SIZE : ${res.size}cm`:'';
+  document.getElementById('r-model').textContent=res.primary_model||'';
+  document.getElementById('r-size').textContent=res.primary_size?`RECOMMENDED SIZE : ${res.primary_size}cm`:'';
   document.getElementById('r-reason').textContent=res.reason||'';
   document.getElementById('r-tags').innerHTML=(res.tags||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
 
+  const whyWrap = document.getElementById('why-points');
+  whyWrap.innerHTML = (res.why_points||[]).map((point, idx)=>`<div class="why-point"><div class="why-point-label">${['STYLE MATCH','FLEX MATCH','SHAPE MATCH'][idx] || 'POINT'}</div><div class="why-point-text">${point}</div></div>`).join('');
+
+  const rdShown = [res.primary_model, res.secondary_model].some(m => m && m.includes('RD'));
   const note=document.getElementById('rd-size-note');
-  if(res.model && res.model.includes('RD')) note.classList.remove('hidden');
+  if(rdShown) note.classList.remove('hidden');
   else note.classList.add('hidden');
 
   const productWrap=document.getElementById('product-link-wrap');
   const productLink=document.getElementById('product-link');
-  const productUrl=PRODUCT_LINKS[res.model];
+  const productUrl=PRODUCT_LINKS[res.primary_model];
   if(productUrl){
     productLink.href=productUrl;
     productWrap.classList.remove('hidden');
@@ -613,8 +739,28 @@ function renderResult(res){
     productWrap.classList.add('hidden');
   }
 
+  const secondWrap=document.getElementById('second-wrap');
+  const secondProductWrap=document.getElementById('product-link-wrap-2');
+  const secondProductLink=document.getElementById('product-link-2');
+  if(res.secondary_model){
+    document.getElementById('r-model-2').textContent=res.secondary_model||'';
+    document.getElementById('r-size-2').textContent=res.secondary_size?`RECOMMENDED SIZE : ${res.secondary_size}cm`:'';
+    document.getElementById('r-reason-2').textContent=res.secondary_reason||'';
+    document.getElementById('r-tags-2').innerHTML=(res.secondary_tags||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
+    const secondUrl=PRODUCT_LINKS[res.secondary_model];
+    if(secondUrl){
+      secondProductLink.href=secondUrl;
+      secondProductWrap.classList.remove('hidden');
+    }else{
+      secondProductWrap.classList.add('hidden');
+    }
+    secondWrap.classList.remove('hidden');
+  }else{
+    secondWrap.classList.add('hidden');
+  }
+
   document.getElementById('ai-comment').innerHTML='<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>コメント生成中...</span></div>';
-  const riders=RIDERS[res.model]||[];
+  const riders=RIDERS[res.primary_model]||[];
   const riderWrap=document.getElementById('riders-wrap');
   if(riders.length){
     document.getElementById('rider-list').innerHTML=riders.map(r=>`<a class="rider" href="${r.u}" target="_blank" rel="noopener"><div class="rider-icon">${r.n.replace('@','').slice(0,2).toUpperCase()}</div><div class="rider-name">${r.n}</div></a>`).join('');
@@ -629,14 +775,14 @@ function renderResult(res){
 
 async function generateAIComment(res){
   const el=document.getElementById('ai-comment');
-  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\n');
-  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、推奨モデルへの熱量のあるコメントを生成してください。スノーボーダー目線で120〜160文字の自然な日本語で。専門用語OK。`;
-  const prompt=`診断結果: ${res.model}\nサイズ: ${res.size}cm\nユーザー回答:\n${qaLog}\n推薦理由: ${res.reason}\nコメントを生成してください。`;
+  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\\n');
+  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、第1候補と第2候補の違いも含めて、納得感のある短いコメントを生成してください。120〜180文字の自然な日本語で、売り込みすぎず、比較がわかるようにしてください。`;
+  const prompt=`第1候補: ${res.primary_model} / ${res.primary_size}cm\\n第2候補: ${res.secondary_model} / ${res.secondary_size}cm\\nユーザー回答:\\n${qaLog}\\n第1候補理由: ${res.reason}\\n第2候補理由: ${res.secondary_reason}\\nコメントを生成してください。`;
   try{
-    const comment=await callClaude([{role:'user',content:prompt}],system,400);
+    const comment=await callClaude([{role:'user',content:prompt}],system,450);
     el.textContent=comment.trim();
   }catch(e){
-    el.textContent=`${res.model}はあなたのスタイルに最適な一本です。このボードの特性を最大限に活かして、さらなるライディングを楽しんでください。`;
+    el.textContent=`第1候補の${res.primary_model}は総合バランスを重視した選択です。第2候補の${res.secondary_model}は乗り味の方向性を少し変えたい場合の有力候補として比較してください。`;
   }
 }
 
@@ -651,7 +797,7 @@ async function sendChat(){
   const loadDiv=document.createElement('div'); loadDiv.className='chat-msg loading'; loadDiv.innerHTML='<div class="dot-pulse"><span></span><span></span><span></span></div>'; chatArea.appendChild(loadDiv);
   chatArea.scrollTop=chatArea.scrollHeight;
   const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\n');
-  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家アドバイザーです。診断結果: ${currentResult?.model||''}。推薦理由: ${currentResult?.reason||''}\nユーザー回答:\n${qaLog}\n150文字以内で簡潔に答えてください。マークダウン不要。`;
+  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家アドバイザーです。第1候補: ${currentResult?.primary_model||''}。第2候補: ${currentResult?.secondary_model||''}。第1候補理由: ${currentResult?.reason||''}\nユーザー回答:\n${qaLog}\n150文字以内で簡潔に答えてください。マークダウン不要。`;
   const trimmedChat=chatHistory.length>6?chatHistory.slice(-6):[...chatHistory];
   trimmedChat.push({role:'user',content:msg});
   try{
