@@ -738,23 +738,22 @@ function renderResult(data){
   document.getElementById('first-model').textContent = first.model;
   document.getElementById('first-size').textContent = `RECOMMENDED SIZE : ${first.size}cm`;
   document.getElementById('first-tags').innerHTML = MODELS[first.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
-  document.getElementById('first-reason').textContent = MODELS[first.model].reason;
+  document.getElementById('first-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
   document.getElementById('first-link').href = PRODUCT_LINKS[first.model];
   document.getElementById('first-rd-note').classList.toggle('hidden', !first.model.includes('RD'));
 
   document.getElementById('second-model').textContent = second.model;
   document.getElementById('second-size').textContent = `RECOMMENDED SIZE : ${second.size}cm`;
   document.getElementById('second-tags').innerHTML = MODELS[second.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
-  document.getElementById('second-reason').textContent = MODELS[second.model].reason;
+  document.getElementById('second-reason').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
   document.getElementById('second-link').href = PRODUCT_LINKS[second.model];
   document.getElementById('second-rd-note').classList.toggle('hidden', !second.model.includes('RD'));
 
-  const why = buildWhyTexts(data.answers, first.model);
-  document.getElementById('why-style').textContent = why.styleText;
-  document.getElementById('why-flex').textContent = why.flexText;
-  document.getElementById('why-shape').textContent = why.shapeText;
+  document.getElementById('why-style').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('why-flex').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
+  document.getElementById('why-shape').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
 
-  document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
+  document.getElementById('diagnosis-comment').innerHTML = '<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>AIが分析中...</span></div>';
 
   const riderCandidates = [...(RIDERS[first.model] || []), ...(RIDERS[second.model] || [])];
   const unique = [];
@@ -775,13 +774,26 @@ function renderResult(data){
 
   generateClaudeReasons(data).then(generated => {
     if(generated.first_reason) document.getElementById('first-reason').textContent = generated.first_reason;
+    else document.getElementById('first-reason').textContent = MODELS[first.model].reason;
+
     if(generated.second_reason) document.getElementById('second-reason').textContent = generated.second_reason;
+    else document.getElementById('second-reason').textContent = MODELS[second.model].reason;
+
     if(generated.diagnosis) document.getElementById('diagnosis-comment').textContent = generated.diagnosis;
-    if(generated.why_style) document.getElementById('why-style').textContent = generated.why_style;
-    if(generated.why_flex) document.getElementById('why-flex').textContent = generated.why_flex;
-    if(generated.why_shape) document.getElementById('why-shape').textContent = generated.why_shape;
+    else document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
+
+    const why = buildWhyTexts(data.answers, first.model);
+    document.getElementById('why-style').textContent = generated.why_style || why.styleText;
+    document.getElementById('why-flex').textContent = generated.why_flex || why.flexText;
+    document.getElementById('why-shape').textContent = generated.why_shape || why.shapeText;
   }).catch(() => {
-    // fallback stays as rendered
+    document.getElementById('first-reason').textContent = MODELS[first.model].reason;
+    document.getElementById('second-reason').textContent = MODELS[second.model].reason;
+    document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
+    const why = buildWhyTexts(data.answers, first.model);
+    document.getElementById('why-style').textContent = why.styleText;
+    document.getElementById('why-flex').textContent = why.flexText;
+    document.getElementById('why-shape').textContent = why.shapeText;
   });
 }
 
