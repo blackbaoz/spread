@@ -467,6 +467,32 @@ function getNearestAllowedSize(model, size){
   return allowed.reduce((prev, curr) => Math.abs(curr - numericSize) < Math.abs(prev - numericSize) ? curr : prev, allowed[0]);
 }
 
+function applyMinSizeByProfile(size, height, gender, style){
+  const numericSize = Number(size);
+  const numericHeight = Number(height);
+  if (!Number.isFinite(numericSize) || !Number.isFinite(numericHeight)) return size;
+
+  const isMaleOrUnknown = gender === '男性' || gender === '回答しない' || !gender;
+  const hasCarving = (style || '').includes('カービング') || (style || '').includes('両方');
+  let minSize = null;
+
+  if (isMaleOrUnknown) {
+    if (numericHeight >= 170) minSize = 148;
+    else if (numericHeight >= 160) minSize = 145;
+    else if (numericHeight >= 150) minSize = 142;
+  } else {
+    if (numericHeight >= 165) minSize = 145;
+    else if (numericHeight >= 155) minSize = 142;
+  }
+
+  if (hasCarving) {
+    minSize = minSize === null ? 148 : Math.max(minSize, 148);
+  }
+
+  if (minSize !== null && numericSize < minSize) return minSize;
+  return numericSize;
+}
+
 function scoreModel(model, ctx){
   const {gender, style, trick, camber, flex} = ctx;
   let score = 0;
@@ -567,7 +593,9 @@ function normalizeSingleCandidate(model, size, ctx){
     }
   }
 
-  const normalizedSize = getNearestAllowedSize(normalizedModel, size);
+  let normalizedSize = getNearestAllowedSize(normalizedModel, size);
+  normalizedSize = applyMinSizeByProfile(normalizedSize, ctx.height, ctx.gender, ctx.style);
+  normalizedSize = getNearestAllowedSize(normalizedModel, normalizedSize);
   return { model: normalizedModel, size: normalizedSize };
 }
 
@@ -577,7 +605,9 @@ function buildFinalCandidates(raw){
     style: getAnswerByKeyword('メインスタイル') || '',
     trick: getAnswerByKeyword('トリックの傾向') || '',
     camber: getAnswerByKeyword('キャンバー形状') || '',
-    flex: getAnswerByKeyword('フレックス') || ''
+    flex: getAnswerByKeyword('フレックス') || '',
+    height: parseFloat((getAnswerByKeyword('身長') || '').replace('cm','')),
+    weight: parseFloat((getAnswerByKeyword('体重') || '').replace('kg',''))
   };
 
   const aiPrimaryModel = raw.primary_model || raw.model || '';
@@ -585,15 +615,30 @@ function buildFinalCandidates(raw){
   const aiSecondaryModel = raw.secondary_model || '';
   const aiSecondarySize = raw.secondary_size || '';
 
-  let primary = normalizeSingleCandidate(aiPrimaryModel, aiPrimarySize, ctx);
+  const ranked = rankModels(ctx);
 
-  const ranked = rankModels(ctx).filter(m => m !== primary.model);
-  let secondarySeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondaryModel : (ranked[0] || primary.model);
-  let secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondarySize : (MODEL_SIZES[secondarySeed] ? MODEL_SIZES[secondarySeed][0] : primary.size);
+  let primarySeed = aiPrimaryModel;
+  let primarySizeSeed = aiPrimarySize;
+  if (ctx.camber.includes('ダブル')) {
+    primarySeed = 'DX';
+    primarySizeSeed = aiPrimaryModel === 'DX' ? aiPrimarySize : (MODEL_SIZES['DX']?.[0] || 145);
+  }
+
+  let primary = normalizeSingleCandidate(primarySeed, primarySizeSeed, ctx);
+
+  let secondarySeed = '';
+  let secondarySizeSeed = aiSecondarySize;
+  if (ctx.camber.includes('ダブル')) {
+    secondarySeed = ranked.find(m => m !== 'DX') || 'RD';
+    secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== 'DX' ? aiSecondarySize : primary.size;
+  } else {
+    secondarySeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondaryModel : (ranked.find(m => m !== primary.model) || primary.model);
+    secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondarySize : (MODEL_SIZES[secondarySeed] ? MODEL_SIZES[secondarySeed][0] : primary.size);
+  }
+
   let secondary = normalizeSingleCandidate(secondarySeed, secondarySizeSeed, ctx);
-
   if (secondary.model === primary.model) {
-    const alt = ranked.find(m => m !== primary.model) || primary.model;
+    const alt = ranked.find(m => m !== primary.model && !(ctx.camber.includes('ダブル') && m === 'DX')) || primary.model;
     secondary = normalizeSingleCandidate(alt, MODEL_SIZES[alt]?.[0], ctx);
   }
 
@@ -610,7 +655,8 @@ function buildFinalCandidates(raw){
     reason: raw.reason || '',
     secondary_reason: raw.secondary_reason || '',
     why_points: pLib.points.slice(0, 3),
-    secondary_tags: sLib.tags
+    secondary_tags: sLib.tags,
+    secondary_why_points: sLib.points.slice(0, 3)
   };
 }
 
@@ -783,7 +829,7 @@ function renderResult(res){
 async function generateAIComment(res){
   const el=document.getElementById('ai-comment');
   const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\\n');
-  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、第1候補と第2候補の違いも含めて、納得感のある短いコメントを生成してください。120〜180文字の自然な日本語で、売り込みすぎず、比較がわかるようにしてください。`;
+  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、第1候補と第2候補の違いも含めて、納得感のある短いコメントを生成してください。120〜180文字の自然な日本語で、売り込みすぎず、比較がわかるようにしてください。候補サイズは入力された確定サイズだけを使い、それ以外のサイズには触れないでください。`;
   const prompt=`第1候補: ${res.primary_model} / ${res.primary_size}cm\\n第2候補: ${res.secondary_model} / ${res.secondary_size}cm\\nユーザー回答:\\n${qaLog}\\n第1候補理由: ${res.reason}\\n第2候補理由: ${res.secondary_reason}\\nコメントを生成してください。`;
   try{
     const comment=await callClaude([{role:'user',content:prompt}],system,450);
