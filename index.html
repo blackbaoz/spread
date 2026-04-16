@@ -354,6 +354,96 @@ let answers = {};
 let messages = [];
 let finalData = null;
 
+let chatHistory = [];
+
+async function callClaude(messages, system, maxTokens=700){
+  const res = await fetch('/.netlify/functions/claude', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:maxTokens,
+      system,
+      messages
+    })
+  });
+  const data = await res.json();
+  if(!res.ok) throw new Error(data?.error?.message || 'APIエラー');
+  return data.content.map(b => b.text || '').join('');
+}
+
+function getCatalogContext(){
+  return Object.entries(MODELS).map(([name, m]) => {
+    return `${name}: 形状=${m.camber} / タグ=${m.tags.join(', ')} / 要約=${m.reason}`;
+  }).join('\n');
+}
+
+async function generateClaudeReasons(data){
+  const system = `あなたはSPREAD SNOWBOARDSの専門アドバイザーです。
+候補やサイズはすでに確定しているので、絶対に変更しないでください。
+カタログのニュアンスを反映しつつ、確定している第1候補・第2候補についてのみ説明してください。
+ZEROを高速カービング主軸として扱ってはいけません。
+RDはトリックとカービング両立の中心、RD GXはRDより高速域寄り、AX-FとZEROはグラトリ寄りという理解を守ってください。
+回答はJSONのみで返してください。`;
+  const prompt = `【モデル情報】
+${getCatalogContext()}
+
+【ユーザー回答】
+性別: ${data.answers.gender}
+スタイル: ${data.answers.style}
+トリック傾向: ${data.answers.trick || 'スキップ'}
+キャンバー: ${data.answers.camber}
+フレックス: ${data.answers.flex}
+身長: ${data.answers.height}cm
+体重: ${data.answers.weight}kg
+
+【確定候補】
+第1候補: ${data.first.model} ${data.first.size}cm
+第2候補: ${data.second.model} ${data.second.size}cm
+
+次のJSONを返してください:
+{"first_reason":"120文字前後","second_reason":"120文字前後","diagnosis":"180〜260文字","why_style":"80文字以内","why_flex":"80文字以内","why_shape":"80文字以内"}
+
+制約:
+- 候補名とサイズは上記確定値のみ使う
+- 第1候補と第2候補の違いが分かるようにする
+- カタログの方向性に反する説明を書かない`;
+  const raw = await callClaude([{role:'user', content:prompt}], system, 800);
+  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+}
+
+async function askClaudeAboutResult(userMessage, data){
+  const system = `あなたはSPREAD SNOWBOARDSの専門アドバイザーです。
+診断結果は確定しているので、次の候補とサイズを前提に答えてください。
+第1候補: ${data.first.model} ${data.first.size}cm
+第2候補: ${data.second.model} ${data.second.size}cm
+
+厳守:
+- 候補名やサイズを変更しない
+- カタログの方向性を守る
+- ZEROを高速カービング主軸の板として説明しない
+- 簡潔だが中身のある日本語で120〜220文字程度で答える`;
+  const prompt = `【モデル情報】
+${getCatalogContext()}
+
+【ユーザー回答】
+性別: ${data.answers.gender}
+スタイル: ${data.answers.style}
+トリック傾向: ${data.answers.trick || 'スキップ'}
+キャンバー: ${data.answers.camber}
+フレックス: ${data.answers.flex}
+身長: ${data.answers.height}cm
+体重: ${data.answers.weight}kg
+
+【質問】
+${userMessage}`;
+  const msgs = chatHistory.slice(-6).concat([{role:'user', content:prompt}]);
+  const reply = await callClaude(msgs, system, 500);
+  chatHistory.push({role:'user', content:prompt});
+  chatHistory.push({role:'assistant', content:reply.trim()});
+  return reply.trim();
+}
+
 function show(id){
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -679,8 +769,20 @@ function renderResult(data){
     : `<div class="why-text">この候補に紐づくライダー情報は現在準備中です。</div>`;
 
   document.getElementById('chat-messages').innerHTML = '';
+  chatHistory = [];
   show('screen-result');
   window.scrollTo({ top:0, behavior:'smooth' });
+
+  generateClaudeReasons(data).then(generated => {
+    if(generated.first_reason) document.getElementById('first-reason').textContent = generated.first_reason;
+    if(generated.second_reason) document.getElementById('second-reason').textContent = generated.second_reason;
+    if(generated.diagnosis) document.getElementById('diagnosis-comment').textContent = generated.diagnosis;
+    if(generated.why_style) document.getElementById('why-style').textContent = generated.why_style;
+    if(generated.why_flex) document.getElementById('why-flex').textContent = generated.why_flex;
+    if(generated.why_shape) document.getElementById('why-shape').textContent = generated.why_shape;
+  }).catch(() => {
+    // fallback stays as rendered
+  });
 }
 
 function submitBody(){
@@ -715,32 +817,34 @@ function submitBody(){
   renderResult(finalData);
 }
 
-function sendChat(){
+async function sendChat(){
   const input = document.getElementById('chat-input');
   const msg = input.value.trim();
   if(!msg || !finalData) return;
 
   const area = document.getElementById('chat-messages');
   area.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+  input.value = '';
+  area.innerHTML += `<div class="chat-msg ai" id="chat-loading">考えています...</div>`;
+  area.scrollTop = area.scrollHeight;
 
-  const a = finalData.answers;
-  const first = finalData.first;
-  const second = finalData.second;
+  try {
+    const reply = await askClaudeAboutResult(msg, finalData);
+    const loading = document.getElementById('chat-loading');
+    if(loading) loading.remove();
+    area.innerHTML += `<div class="chat-msg ai">${reply}</div>`;
+  } catch(e){
+    const loading = document.getElementById('chat-loading');
+    if(loading) loading.remove();
 
-  let reply = '';
-  if(/サイズ|長さ/.test(msg)){
-    reply = `今回の回答では、第1候補は${first.model} ${first.size}cm、第2候補は${second.model} ${second.size}cmです。身長${a.height}cm・体重${a.weight}kgに対して、短すぎる長さは避けて提案しています。`;
-  } else if(/違い|比較/.test(msg)){
-    reply = `${first.model}は${MODELS[first.model].reason} 一方、${second.model}は${MODELS[second.model].reason}`;
-  } else if(/RD|ワイド|S|W/.test(msg) && (first.model.includes('RD') || second.model.includes('RD'))){
-    reply = `RDシリーズが候補に入っているため、通常モデルに加えてW（ワイド）・S（スーパーワイド）も確認する価値があります。特に足が大きい方や深いカービングをしたい場合は相性が良いです。`;
-  } else {
-    reply = `第1候補は${first.model} ${first.size}cm、第2候補は${second.model} ${second.size}cmです。今回の回答では「${a.style}」を強く反映して候補を出しています。`;
+    const a = finalData.answers;
+    const first = finalData.first;
+    const second = finalData.second;
+    let reply = `第1候補は${first.model} ${first.size}cm、第2候補は${second.model} ${second.size}cmです。今回の回答では「${a.style}」を強く反映して候補を出しています。`;
+    area.innerHTML += `<div class="chat-msg ai">${reply}</div>`;
   }
 
-  area.innerHTML += `<div class="chat-msg ai">${reply}</div>`;
   area.scrollTop = area.scrollHeight;
-  input.value = '';
 }
 
 document.addEventListener('DOMContentLoaded', ()=>{
