@@ -5,103 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SPREAD SNOWBOARDS | BOARD FINDER</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #111; color: #f0f0f0; font-family: 'Noto Sans JP', sans-serif; min-height: 100vh; }
-    .container { max-width: 560px; margin: 0 auto; padding: 0 20px 80px; }
-    .header { text-align: center; padding: 48px 0 32px; }
-    .brand { font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 6px; color: #E8251A; margin-bottom: .4rem; }
-    .title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 2px; color: #f0f0f0; line-height: 1; }
-    .subtitle { font-size: 11px; letter-spacing: 3px; color: #666; margin-top: .4rem; }
-    .ai-badge { display: inline-flex; align-items: center; gap: 6px; background: #1e1e1e; border: 1px solid #333; padding: 4px 14px; border-radius: 20px; font-size: 10px; letter-spacing: 2px; color: #888; margin-top: .75rem; }
-    .ai-dot { width: 6px; height: 6px; border-radius: 50%; background: #E8251A; animation: pulse 2s infinite; }
+    body { background:#111; color:#f0f0f0; font-family:'Noto Sans JP',sans-serif; min-height:100vh; }
+    .container { max-width:560px; margin:0 auto; padding:0 20px 80px; }
+    .header { text-align:center; padding:48px 0 32px; }
+    .brand { font-family:'Bebas Neue',sans-serif; font-size:12px; letter-spacing:6px; color:#E8251A; margin-bottom:.4rem; }
+    .title { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:2px; color:#f0f0f0; line-height:1; }
+    .subtitle { font-size:11px; letter-spacing:3px; color:#666; margin-top:.4rem; }
+    .ai-badge { display:inline-flex; align-items:center; gap:6px; background:#1e1e1e; border:1px solid #333; padding:4px 14px; border-radius:20px; font-size:10px; letter-spacing:2px; color:#888; margin-top:.75rem; }
+    .ai-dot { width:6px; height:6px; border-radius:50%; background:#E8251A; animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    .screen { display: none; }
-    .screen.active { display: block; animation: fadeUp .35s ease; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-    .intro-card { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 24px; margin-bottom: 20px; }
-    .intro-card p { font-size: 14px; line-height: 1.9; color: #aaa; font-weight: 300; margin-bottom: 20px; }
-    .intro-badges { display: flex; gap: 10px; }
-    .intro-badge { flex: 1; background: #111; border: 1px solid #2a2a2a; padding: 12px 8px; text-align: center; font-size: 11px; color: #666; letter-spacing: 1px; }
-    .intro-badge-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #E8251A; display: block; margin-bottom: 4px; }
-    .btn-start { display: block; width: 100%; background: #f0f0f0; color: #111; padding: 16px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 3px; font-weight: 500; cursor: pointer; text-align: center; transition: background .2s; user-select: none; }
-    .btn-start:hover { background: #fff; }
-    .prog { display: flex; gap: 4px; justify-content: center; margin-bottom: 2rem; }
-    .pd { width: 28px; height: 2px; background: #2a2a2a; }
-    .pd.on { background: #E8251A; }
-    .pd.done { background: #555; }
-    .history-item { margin-bottom: 12px; }
-    .history-q { font-size: 11px; color: #444; margin-bottom: 3px; }
-    .history-a { display: inline-block; background: rgba(232,37,26,.1); border: 1px solid rgba(232,37,26,.25); padding: 4px 12px; font-size: 12px; color: #E8251A; }
-    .divider { height: 1px; background: #222; margin: 16px 0 24px; }
-    .qn { font-size: 10px; letter-spacing: 3px; color: #E8251A; margin-bottom: .6rem; }
-    .qt { font-size: 19px; font-weight: 400; color: #f0f0f0; line-height: 1.5; margin-bottom: 1.5rem; }
-    .opts { display: flex; flex-direction: column; gap: 8px; }
-    .opt { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 14px 18px; cursor: pointer; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; color: #f0f0f0; text-align: left; line-height: 1.5; transition: border-color .15s; user-select: none; }
-    .opt:hover { border-color: #555; }
-    .opt.sel { border-color: #E8251A; color: #fff; }
-    .body-inputs { display: grid; gap: 16px; margin-bottom: 8px; }
-    .input-group label { font-size: 11px; color: #666; letter-spacing: 2px; display: block; margin-bottom: 8px; }
-    .input-wrap { position: relative; }
-    .num-input { background: #1a1a1a; border: 1px solid #2a2a2a; color: #f0f0f0; padding: 14px 48px 14px 18px; font-family: 'Noto Sans JP', sans-serif; font-size: 22px; width: 100%; outline: none; transition: border-color .2s; }
-    .num-input:focus { border-color: #E8251A; }
-    .num-input::placeholder { color: #333; }
-    .num-unit { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #555; font-size: 14px; pointer-events: none; }
-    .btn-analyze { display: block; width: 100%; background: #f0f0f0; color: #111; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; letter-spacing: 3px; font-weight: 500; cursor: pointer; text-align: center; margin-top: 20px; transition: all .2s; user-select: none; }
-    .btn-analyze:hover { background: #fff; }
-    .btn-analyze.off { background: #2a2a2a !important; color: #555 !important; cursor: not-allowed; pointer-events: none; }
-    .input-back { font-size: 12px; color: #666; cursor: pointer; letter-spacing: 1px; padding: 16px 0 0; display: inline-block; }
-    .input-back:hover { color: #f0f0f0; }
-    .loading { display: flex; flex-direction: column; align-items: center; padding: 5rem 0; gap: 1.5rem; }
-    .spinner { width: 32px; height: 32px; border: 2px solid #2a2a2a; border-top-color: #E8251A; border-radius: 50%; animation: spin .8s linear infinite; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    .loading-txt { font-size: 11px; letter-spacing: 3px; color: #555; }
-    .result-label { font-size: 10px; letter-spacing: 4px; color: #555; margin-bottom: 1rem; }
-    .result-main { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 24px; margin-bottom: 16px; }
-    .result-best-label { font-size: 10px; letter-spacing: 3px; color: #E8251A; margin-bottom: .5rem; }
-    .result-model { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: 3px; color: #f0f0f0; line-height: 1; }
-    .result-size { font-size: 13px; color: #555; margin-top: .4rem; letter-spacing: 2px; }
-    .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0; }
-    .result-tag { border: 1px solid #2a2a2a; padding: 3px 10px; font-size: 10px; letter-spacing: 2px; color: #777; }
-    .result-reason { font-size: 14px; line-height: 1.85; color: #bbb; font-weight: 300; margin-bottom: 1rem; }
-    .ai-comment-wrap { margin-top: 16px; border-top: 1px solid #222; padding-top: 16px; }
-    .ai-comment-label { font-size: 9px; letter-spacing: 3px; color: #E8251A; margin-bottom: .6rem; }
-    .ai-comment-body { font-size: 14px; line-height: 1.9; color: #ccc; font-weight: 300; min-height: 48px; }
-    .ai-comment-loading { display: flex; align-items: center; gap: 8px; color: #444; font-size: 12px; }
-    .dot-pulse { display: flex; gap: 4px; }
-    .dot-pulse span { width: 4px; height: 4px; background: #E8251A; border-radius: 50%; animation: dp 1.2s infinite; }
-    .dot-pulse span:nth-child(2){animation-delay:.2s} .dot-pulse span:nth-child(3){animation-delay:.4s}
-    @keyframes dp { 0%,80%,100%{transform:scale(.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
-    .riders-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 20px; margin-bottom: 16px; }
-    .riders-label { font-size: 10px; letter-spacing: 3px; color: #555; border-bottom: 1px solid #222; padding-bottom: .75rem; margin-bottom: .75rem; }
-    .rider-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .rider { display: flex; align-items: center; gap: 8px; background: #111; border: 1px solid #222; padding: 8px 12px; text-decoration: none; transition: border-color .2s; }
-    .rider:hover { border-color: #555; }
-    .rider-icon { width: 28px; height: 28px; border-radius: 50%; background: #1e1e1e; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #777; font-family: 'Bebas Neue', sans-serif; flex-shrink: 0; }
-    .rider-name { font-size: 12px; color: #bbb; letter-spacing: 1px; }
-    .chat-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 20px; margin-bottom: 16px; }
-    .chat-label { font-size: 10px; letter-spacing: 3px; color: #555; margin-bottom: 1rem; }
-    .chat-messages { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; max-height: 280px; overflow-y: auto; }
-    .chat-msg { padding: 10px 14px; font-size: 13px; line-height: 1.6; max-width: 88%; }
-    .chat-msg.user { background: rgba(232,37,26,.1); border: 1px solid rgba(232,37,26,.25); color: #E8251A; align-self: flex-end; }
-    .chat-msg.ai { background: #111; border: 1px solid #2a2a2a; color: #ccc; align-self: flex-start; }
-    .chat-msg.loading { background: #111; border: 1px solid #222; align-self: flex-start; padding: 12px 14px; }
-    .chat-row { display: flex; gap: 8px; }
-    .chat-input { flex: 1; background: #111; border: 1px solid #2a2a2a; color: #f0f0f0; padding: 12px 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; outline: none; transition: border-color .2s; }
-    .chat-input:focus { border-color: #E8251A; }
-    .chat-input::placeholder { color: #444; }
-    .chat-send { background: #E8251A; border: none; color: #fff; padding: 12px 18px; font-family: 'Noto Sans JP', sans-serif; font-size: 12px; letter-spacing: 1px; font-weight: 500; cursor: pointer; transition: opacity .2s; white-space: nowrap; }
-    .chat-send:hover { opacity: .85; }
-    .chat-send:disabled { opacity: .35; cursor: not-allowed; }
-    .divider-line { height: 1px; background: #222; margin: 1.5rem 0; }
-    .btn-retry { display: block; width: 100%; background: transparent; border: 1px solid #2a2a2a; color: #555; padding: 14px; font-family: 'Noto Sans JP', sans-serif; font-size: 11px; letter-spacing: 2px; cursor: pointer; text-align: center; transition: all .2s; user-select: none; }
-    .btn-retry:hover { border-color: #666; color: #f0f0f0; }
 
-    .why-point { background: #111; border: 1px solid #222; padding: 12px 14px; margin-top: 8px; }
-    .why-point-label { font-size: 10px; letter-spacing: 2px; color: #666; margin-bottom: 6px; }
-    .why-point-text { font-size: 13px; color: #cfcfcf; line-height: 1.7; }
-    .hidden { display: none !important; }
+    .screen { display:none; }
+    .screen.active { display:block; animation:fadeUp .28s ease; }
+    @keyframes fadeUp { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
+
+    .intro-card, .result-main, .riders-wrap, .chat-wrap, .reason-wrap, .candidate-card {
+      background:#1a1a1a; border:1px solid #2a2a2a;
+    }
+
+    .intro-card { padding:24px; margin-bottom:20px; }
+    .intro-card p { font-size:14px; line-height:1.9; color:#aaa; font-weight:300; margin-bottom:20px; }
+    .intro-badges { display:flex; gap:10px; }
+    .intro-badge { flex:1; background:#111; border:1px solid #2a2a2a; padding:12px 8px; text-align:center; font-size:11px; color:#666; letter-spacing:1px; }
+    .intro-badge-num { font-family:'Bebas Neue',sans-serif; font-size:22px; color:#E8251A; display:block; margin-bottom:4px; }
+
+    .btn-main {
+      display:block; width:100%; background:#f0f0f0; color:#111; padding:16px;
+      font-family:'Noto Sans JP',sans-serif; font-size:13px; letter-spacing:3px; font-weight:700;
+      cursor:pointer; text-align:center; transition:background .2s; user-select:none; text-decoration:none; border:none;
+    }
+    .btn-main:hover { background:#fff; }
+
+    .prog { display:flex; gap:4px; justify-content:center; margin-bottom:2rem; }
+    .pd { width:28px; height:2px; background:#2a2a2a; }
+    .pd.on { background:#E8251A; }
+    .pd.done { background:#555; }
+
+    .history-item { margin-bottom:12px; }
+    .history-q { font-size:11px; color:#444; margin-bottom:3px; }
+    .history-a { display:inline-block; background:rgba(232,37,26,.1); border:1px solid rgba(232,37,26,.25); padding:4px 12px; font-size:12px; color:#E8251A; }
+    .divider { height:1px; background:#222; margin:16px 0 24px; }
+
+    .qn { font-size:10px; letter-spacing:3px; color:#E8251A; margin-bottom:.6rem; }
+    .qt { font-size:19px; font-weight:400; color:#f0f0f0; line-height:1.5; margin-bottom:1.5rem; }
+    .opts { display:flex; flex-direction:column; gap:8px; }
+    .opt {
+      background:#1a1a1a; border:1px solid #2a2a2a; padding:14px 18px; cursor:pointer; font-size:14px; color:#f0f0f0;
+      text-align:left; line-height:1.5; transition:border-color .15s; user-select:none;
+    }
+    .opt:hover { border-color:#555; }
+    .opt.sel { border-color:#E8251A; color:#fff; }
+
+    .body-inputs { display:grid; gap:16px; margin-bottom:8px; }
+    .input-group label { font-size:11px; color:#666; letter-spacing:2px; display:block; margin-bottom:8px; }
+    .input-wrap { position:relative; }
+    .num-input {
+      background:#1a1a1a; border:1px solid #2a2a2a; color:#f0f0f0; padding:14px 48px 14px 18px; font-size:22px;
+      width:100%; outline:none; transition:border-color .2s;
+    }
+    .num-input:focus { border-color:#E8251A; }
+    .num-unit { position:absolute; right:16px; top:50%; transform:translateY(-50%); color:#555; font-size:14px; pointer-events:none; }
+    .btn-analyze {
+      display:block; width:100%; background:#f0f0f0; color:#111; padding:14px; font-size:13px; letter-spacing:3px; font-weight:700;
+      cursor:pointer; text-align:center; margin-top:20px; transition:all .2s; user-select:none;
+    }
+    .btn-analyze.off { background:#2a2a2a !important; color:#555 !important; cursor:not-allowed; pointer-events:none; }
+    .input-back { font-size:12px; color:#666; cursor:pointer; letter-spacing:1px; padding:16px 0 0; display:inline-block; }
+
+    .result-label { font-size:10px; letter-spacing:4px; color:#555; margin-bottom:1rem; }
+    .candidate-card { padding:24px; margin-bottom:16px; }
+    .result-best-label { font-size:10px; letter-spacing:3px; color:#E8251A; margin-bottom:.5rem; }
+    .candidate-sub { font-size:10px; letter-spacing:4px; color:#555; margin-bottom:.8rem; }
+    .result-model { font-family:'Bebas Neue',sans-serif; font-size:64px; letter-spacing:3px; color:#f0f0f0; line-height:1; }
+    .result-size { font-size:13px; color:#555; margin-top:.4rem; letter-spacing:2px; }
+    .result-tags { display:flex; flex-wrap:wrap; gap:6px; margin:1rem 0; }
+    .result-tag { border:1px solid #2a2a2a; padding:3px 10px; font-size:10px; letter-spacing:2px; color:#777; }
+    .result-reason { font-size:14px; line-height:1.9; color:#bbb; font-weight:300; margin-bottom:1rem; }
+    .subdivider { height:1px; background:#222; margin:18px 0; }
+
+    .rd-note {
+      margin-top:12px; font-size:13px; color:#aaa; line-height:1.8; background:#141414; border:1px solid #252525; padding:14px 16px;
+    }
+
+    .reason-wrap { padding:20px; margin-bottom:16px; }
+    .reason-title { font-size:10px; letter-spacing:4px; color:#E8251A; margin-bottom:1rem; }
+    .why-grid { display:grid; gap:10px; }
+    .why-item { background:#111; border:1px solid #222; padding:14px 16px; }
+    .why-label { font-size:10px; letter-spacing:3px; color:#666; margin-bottom:6px; }
+    .why-text { font-size:14px; line-height:1.7; color:#ccc; }
+
+    .chat-wrap { padding:20px; margin-bottom:16px; }
+    .chat-label { font-size:10px; letter-spacing:3px; color:#555; margin-bottom:1rem; }
+    .chat-messages { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; max-height:280px; overflow-y:auto; }
+    .chat-msg { padding:10px 14px; font-size:13px; line-height:1.7; max-width:88%; }
+    .chat-msg.user { background:rgba(232,37,26,.1); border:1px solid rgba(232,37,26,.25); color:#E8251A; align-self:flex-end; }
+    .chat-msg.ai { background:#111; border:1px solid #2a2a2a; color:#ccc; align-self:flex-start; }
+    .chat-row { display:flex; gap:8px; }
+    .chat-input { flex:1; background:#111; border:1px solid #2a2a2a; color:#f0f0f0; padding:12px 14px; font-size:13px; outline:none; }
+    .chat-send { background:#E8251A; border:none; color:#fff; padding:12px 18px; font-size:12px; letter-spacing:1px; font-weight:700; cursor:pointer; white-space:nowrap; }
+
+    .riders-wrap { padding:20px; margin-bottom:16px; }
+    .riders-label { font-size:10px; letter-spacing:3px; color:#555; border-bottom:1px solid #222; padding-bottom:.75rem; margin-bottom:.75rem; }
+    .rider-list { display:flex; flex-wrap:wrap; gap:8px; }
+    .rider { display:flex; align-items:center; gap:8px; background:#111; border:1px solid #222; padding:8px 12px; text-decoration:none; }
+    .rider-icon { width:28px; height:28px; border-radius:50%; background:#1e1e1e; display:flex; align-items:center; justify-content:center; font-size:10px; color:#777; font-family:'Bebas Neue',sans-serif; }
+    .rider-name { font-size:12px; color:#bbb; letter-spacing:1px; }
+
+    .btn-retry { display:block; width:100%; background:transparent; border:1px solid #2a2a2a; color:#555; padding:14px; font-size:11px; letter-spacing:2px; cursor:pointer; text-align:center; }
+    .hidden { display:none !important; }
   </style>
 </head>
 <body>
@@ -110,19 +124,19 @@
     <div class="brand">SPREAD SNOWBOARDS</div>
     <div class="title">BOARD FINDER</div>
     <div class="subtitle">適正板診断</div>
-    <div class="ai-badge"><span class="ai-dot"></span>AI POWERED DIAGNOSIS</div>
+    <div class="ai-badge"><span class="ai-dot"></span>CATALOG BASED DIAGNOSIS</div>
   </div>
 
   <div id="screen-intro" class="screen active">
     <div class="intro-card">
-      <p>5つの質問と身長・体重の入力から、あなたのライディングスタイルに最適なSPREAD SNOWBOARDSモデルと推奨サイズをAIが提案します。</p>
+      <p>6ステップの診断から、あなたのライディングスタイルに合うSPREAD SNOWBOARDSの<strong>第1候補 / 第2候補</strong>と推奨サイズを提案します。</p>
       <div class="intro-badges">
         <div class="intro-badge"><span class="intro-badge-num">6</span>STEP</div>
-        <div class="intro-badge"><span class="intro-badge-num">AI</span>解析</div>
-        <div class="intro-badge"><span class="intro-badge-num">1</span>最適モデル</div>
+        <div class="intro-badge"><span class="intro-badge-num">2</span>候補提示</div>
+        <div class="intro-badge"><span class="intro-badge-num">CAT</span>ALOG</div>
       </div>
     </div>
-    <div class="btn-start" onclick="startQuiz()">診断スタート →</div>
+    <button class="btn-main" onclick="startQuiz()">診断スタート →</button>
   </div>
 
   <div id="screen-quiz" class="screen">
@@ -138,8 +152,8 @@
     <div class="prog" id="prog-body"></div>
     <div id="history-area-body"></div>
     <div class="divider"></div>
-    <div class="qn" id="body-qn"></div>
-    <div class="qt" id="body-qt"></div>
+    <div class="qn">Q6 / 6</div>
+    <div class="qt">最後に、あなたの身長(cm)と体重(kg)を教えてください。</div>
     <div class="body-inputs">
       <div class="input-group">
         <label>身長</label>
@@ -160,76 +174,89 @@
     <div class="input-back" onclick="backFromBody()">← BACK</div>
   </div>
 
-  <div id="screen-loading" class="screen">
-    <div class="loading">
-      <div class="spinner"></div>
-      <div class="loading-txt" id="loading-txt">AI解析中...</div>
-    </div>
-  </div>
-
   <div id="screen-result" class="screen">
     <div class="result-label">RESULT</div>
-    <div class="result-main">
+
+    <div class="candidate-card">
       <div class="result-best-label">BEST MATCH</div>
-      <div class="result-model" id="r-model"></div>
-      <div class="result-size" id="r-size"></div>
-      <div class="result-tags" id="r-tags"></div>
-      <div class="result-reason" id="r-reason"></div>
-
-      <div id="why-wrap" style="margin-top:16px;">
-        <div class="ai-comment-label">WHY THIS BOARD</div>
-        <div id="why-points"></div>
-      </div>
-
-      <div id="rd-size-note" class="hidden" style="margin-top:12px; font-size:13px; color:#aaa; line-height:1.8;">
-        RDシリーズには通常モデルに加えて、<br>
-        <strong>W（ワイド）・S（スーパーワイド）モデル</strong>もラインナップされています。<br>
+      <div class="result-model" id="first-model"></div>
+      <div class="result-size" id="first-size"></div>
+      <div class="result-tags" id="first-tags"></div>
+      <div class="result-reason" id="first-reason"></div>
+      <div id="first-rd-note" class="rd-note hidden">
+        RDシリーズには<strong>通常モデルに加えて、W（ワイド）・S（スーパーワイド）モデル</strong>もあります。<br>
         通常モデルもワイドモデルもあるので、足が大きい方や、より深いカービングをしたい方はそちらもぜひご確認ください。
       </div>
-
-      <div id="product-link-wrap" class="hidden" style="margin-top:16px;">
-        <a id="product-link" href="#" target="_blank" rel="noopener" class="btn-start">第1候補の商品ページを見る →</a>
+      <div style="margin-top:16px;">
+        <a id="first-link" href="#" target="_blank" rel="noopener" class="btn-main">第1候補の商品ページを見る →</a>
       </div>
+    </div>
 
-      <div id="second-wrap" class="hidden" style="margin-top:20px; padding-top:20px; border-top:1px solid #222;">
-        <div class="result-best-label" style="color:#888;">SECOND OPTION</div>
-        <div class="result-model" id="r-model-2" style="font-size:42px; color:#d8d8d8;"></div>
-        <div class="result-size" id="r-size-2"></div>
-        <div class="result-tags" id="r-tags-2"></div>
-        <div class="result-reason" id="r-reason-2"></div>
-        <div id="product-link-wrap-2" class="hidden" style="margin-top:16px;">
-          <a id="product-link-2" href="#" target="_blank" rel="noopener" class="btn-start">第2候補の商品ページを見る →</a>
+    <div class="candidate-card">
+      <div class="candidate-sub">SECOND OPTION</div>
+      <div class="result-model" id="second-model"></div>
+      <div class="result-size" id="second-size"></div>
+      <div class="result-tags" id="second-tags"></div>
+      <div class="result-reason" id="second-reason"></div>
+      <div id="second-rd-note" class="rd-note hidden">
+        RDシリーズには<strong>通常モデルに加えて、W（ワイド）・S（スーパーワイド）モデル</strong>もあります。<br>
+        通常モデルもワイドモデルもあるので、足が大きい方や、より深いカービングをしたい方はそちらもぜひご確認ください。
+      </div>
+      <div style="margin-top:16px;">
+        <a id="second-link" href="#" target="_blank" rel="noopener" class="btn-main">第2候補の商品ページを見る →</a>
+      </div>
+    </div>
+
+    <div class="reason-wrap">
+      <div class="reason-title">WHY THIS BOARD</div>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-label">STYLE MATCH</div>
+          <div class="why-text" id="why-style"></div>
         </div>
-      </div>
-
-      <div class="ai-comment-wrap">
-        <div class="ai-comment-label">AI DIAGNOSIS</div>
-        <div class="ai-comment-body" id="ai-comment">
-          <div class="ai-comment-loading">
-            <div class="dot-pulse"><span></span><span></span><span></span></div>
-            <span>コメント生成中...</span>
-          </div>
+        <div class="why-item">
+          <div class="why-label">FLEX MATCH</div>
+          <div class="why-text" id="why-flex"></div>
+        </div>
+        <div class="why-item">
+          <div class="why-label">SHAPE MATCH</div>
+          <div class="why-text" id="why-shape"></div>
         </div>
       </div>
     </div>
-    <div class="riders-wrap hidden" id="riders-wrap">
+
+    <div class="reason-wrap">
+      <div class="reason-title">AI DIAGNOSIS</div>
+      <div class="why-text" id="diagnosis-comment"></div>
+    </div>
+
+    <div class="riders-wrap" id="riders-wrap">
       <div class="riders-label">THIS MODEL'S RIDERS</div>
       <div class="rider-list" id="rider-list"></div>
     </div>
+
     <div class="chat-wrap">
       <div class="chat-label">AIに質問する</div>
       <div class="chat-messages" id="chat-messages"></div>
       <div class="chat-row">
         <input class="chat-input" id="chat-input" type="text" placeholder="" maxlength="200">
-        <button class="chat-send" id="chat-send" onclick="sendChat()">送信</button>
+        <button class="chat-send" onclick="sendChat()">送信</button>
       </div>
     </div>
-    <div class="divider-line"></div>
-    <div class="btn-retry" onclick="resetQuiz()">← 最初からやり直す</div>
+
+    <button class="btn-retry" onclick="resetQuiz()">← 最初からやり直す</button>
   </div>
 </div>
 
 <script>
+const QUESTIONS = [
+  { key:'gender', text:'あなたの性別を教えてください', options:['男性','女性','回答しない'] },
+  { key:'style', text:'メインで楽しみたいスタイルを教えてください', options:['グラトリ中心','カービング中心','両方やりたい'] },
+  { key:'trick', text:'トリックの傾向について教えてください', options:['プレス・バター系','弾き・飛び系','両方'] },
+  { key:'camber', text:'キャンバー形状の好みを教えてください', options:['キャンバー','可変キャンバー','ダブルキャンバー','こだわりはない'] },
+  { key:'flex', text:'フレックス（板の硬さ）の好みを教えてください', options:['ソフト','ミドル','ハード','こだわりはない'] }
+];
+
 const RIDERS = {
   'RD GX':[{n:'@yuhnosuke.sugaya',u:'https://www.instagram.com/yuhnosuke.sugaya'},{n:'@yuichiro_suguro',u:'https://www.instagram.com/yuichiro_suguro'}],
   'RD':[{n:'@sekiya_riku0322',u:'https://www.instagram.com/sekiya_riku0322'},{n:'@satsuka_shiozawa',u:'https://www.instagram.com/satsuka_shiozawa'},{n:'@nagisa_snowbd',u:'https://www.instagram.com/nagisa_snowbd'},{n:'@kuuto.910.sohara',u:'https://www.instagram.com/kuuto.910.sohara'}],
@@ -243,7 +270,6 @@ const RIDERS = {
   'DX':[{n:'@imshige',u:'https://www.instagram.com/imshige'}],
   'LTA-F':[],'LTB':[]
 };
-
 
 const PRODUCT_LINKS = {
   'LTA-F': 'https://spreadboard.net/boards/lta-f/',
@@ -260,630 +286,478 @@ const PRODUCT_LINKS = {
   'RD GX': 'https://spreadboard.net/boards/rd-gx/'
 };
 
-const SYSTEM = `あなたはSPREAD SNOWBOARDSの板診断AIです。以下の5問を順番に質問し、回答をもとに最適なモデルを1つ提案してください。身長・体重は別画面で収集し、その後に最終結果を返してください。
+const MODELS = {
+  'LTA-F': {
+    camber:'キャンバー', flexRank:1, sizes:[146,153,156],
+    tags:['CAMBER','BALANCE','CONTROL'],
+    reason:'キャンバーの反発を活かしつつ、扱いやすさも重視した万能寄りのグラトリモデルです。プレス・バター系でも扱いやすく、自由度とコントロール性のバランスに優れます。'
+  },
+  'AX-F': {
+    camber:'キャンバー', flexRank:2, sizes:[150,152,154,156],
+    tags:['CAMBER','EDGE HOLD','SPIN'],
+    reason:'グラトリ寄りの中でも、ターン性能を少し伸ばしたい人向けのモデルです。有効エッジ延長による安定感がありつつ、初動の軽さもあります。'
+  },
+  'LTB': {
+    camber:'可変キャンバー', flexRank:4, sizes:[146,153,155],
+    tags:['VARIABLE','PRESS','BALANCE'],
+    reason:'可変キャンバーらしい遊びやすさに、安定性も備えたバランス型です。プレス・バター系との相性が高く、扱いやすさを重視する人に合います。'
+  },
+  'BX': {
+    camber:'可変キャンバー', flexRank:3, sizes:[148,150,152,154,156],
+    tags:['VARIABLE','SPIN','RESPONSE'],
+    reason:'可変キャンバー系の中で、回しやすさや立ち上がりの軽さを重視したモデルです。グラトリ中心で、弾きや回転系も楽しみたい人に向いています。'
+  },
+  'BX-F': {
+    camber:'可変キャンバー', flexRank:1.5, sizes:[148,150,152,154,156],
+    tags:['SOFT FEEL','VARIABLE','FREESTYLE'],
+    reason:'可変キャンバー系の中でも柔らかく、自由度の高いモデルです。プレス・バター・回し系を軽快に楽しみたい人に向いています。'
+  },
+  'DX': {
+    camber:'ダブルキャンバー', flexRank:0.5, sizes:[138,140,142,145,148,150,152,154],
+    tags:['DOUBLE CAMBER','EASY CONTROL','LOOSE'],
+    reason:'ダブルキャンバーならではのルーズさ、しなやかさ、扱いやすさが魅力のモデルです。男女共通で、低速域の遊びやすさや軽快さを求める人に合います。'
+  },
+  'LTY': {
+    camber:'可変キャンバー', flexRank:1.3, sizes:[139,141,145,148],
+    tags:['WOMEN','BALANCE','RESPONSE'],
+    reason:'女性向けの可変キャンバーで、反発と安定感のバランスが良いモデルです。LTVより少ししっかり感があり、ターン性能も欲しい人に向きます。'
+  },
+  'LTV': {
+    camber:'可変キャンバー', flexRank:1.0, sizes:[139,141,145,148],
+    tags:['WOMEN','SOFT FEEL','EASY CONTROL'],
+    reason:'女性向けの可変キャンバーで、柔らかさと扱いやすさを重視したモデルです。低速でも扱いやすく、自由度を求める人に合います。'
+  },
+  'ZERO': {
+    camber:'キャンバー', flexRank:2.5, sizes:[150,152,154,156],
+    tags:['CAMBER','SPIN','TRICK FOCUS'],
+    reason:'弾き・飛び系トリックやスピン性能を重視した、グラトリ色の強いモデルです。カービング主軸ではなく、トリック精度を優先したい人向けです。'
+  },
+  'RD': {
+    camber:'キャンバー', flexRank:4.5, sizes:[142,146,149,150,151,152,154,157,160,162,163],
+    tags:['CARVING','ALLROUND','CONTROL'],
+    reason:'トリックとカービングを高い次元で両立したい人に最も合いやすい中心モデルです。グラトリ専用ではなく、ターン性能も妥協したくない人に向いています。'
+  },
+  'RD CV': {
+    camber:'キャンバー', flexRank:4.5, sizes:[142,145,148,150,152],
+    tags:['CARVING','ALLROUND','COLOR MODEL'],
+    reason:'RDと同じ思想・性能を持つカラーバリエーションモデルです。トリックとカービングの両立を求める人に向いています。'
+  },
+  'RD GX': {
+    camber:'キャンバー', flexRank:5, sizes:[142,146,149,150,151,152,154,157,160,162,163],
+    tags:['HIGH SPEED','CARVING','GRAPHITE'],
+    reason:'RDシリーズの中でも、より高速域や滑走性、直進性を求める人向けのモデルです。ハイスピードカービングや強めの滑走性能を重視するならこちらです。'
+  }
+};
 
-【モデル一覧】
-LTA-F: キャンバー/ミドルソフト/グラトリ〜カービング万能
-AX-F: キャンバー/ミドルソフト/弾き飛び系グラトリ/有効エッジ延長
-LTB: 可変キャンバー/ミドル/プレスバター系グラトリ
-BX: 可変キャンバー/ミドル/弾き飛び系グラトリ/スピン向上
-BX-F: 可変キャンバー/ソフト/プレスバター特化/軽量回転性大幅向上
-DX: ダブルキャンバー/ミドルソフト/ルーズ扱いやすさ重視
-LTY: 可変キャンバー/ミドル/ラントリ・カービング+グラトリ両立
-LTV: 可変キャンバー/ソフト/カービング+グラトリ/反発性
-ZERO: キャンバー/ミドル/弾き飛び系特化・堀内礼監修/スピン最高峰
-RD: キャンバー/ミドルハード/カービング+トリック両立・菅谷監修
-RD CV: キャンバー/ハード/RDカラーバリエーション
-RD GX: キャンバー/ハード/RD+グラファイトソール/ハイスピードカービング
-
-【各モデルの選べる長さ（この中からのみ提案）】
-LTA-F: 146 / 153 / 156
-AX-F: 150 / 152 / 154 / 156
-LTB: 146 / 153 / 155
-BX: 148 / 150 / 152 / 154 / 156
-BX-F: 148 / 150 / 152 / 154 / 156
-DX: 138 / 140 / 142 / 145 / 148 / 150 / 152 / 154
-LTY: 139 / 141 / 145 / 148
-LTV: 139 / 141 / 145 / 148
-ZERO: 150 / 152 / 154 / 156
-RD: 142 / 146 / 149 / 150 / 151 / 152 / 154 / 157 / 160 / 162 / 163
-RD CV: 142 / 145 / 148 / 150 / 152
-RD GX: 142 / 146 / 149 / 150 / 151 / 152 / 154 / 157 / 160 / 162 / 163
-
-【5問（順番厳守）】
-Q1: 性別（男性 / 女性 / 回答しない）
-Q2: メインスタイル（グラトリ中心 / カービング中心 / 両方やりたい）
-Q3: トリックの傾向（プレス・バター系 / 弾き・飛び系 / 両方）※カービング中心ならスキップしQ4へ
-Q4: キャンバー形状（キャンバー / 可変キャンバー / ダブルキャンバー / こだわりはない）
-Q5: フレックス（ソフト / ミドル / ハード / こだわりはない）
-
-【判定の基本方針】
-最優先ルール:
-- LTV と LTY は女性専用モデルとして扱う
-- Q1で「女性」を選んだ場合、最終候補は必ず LTY / LTV / RD のいずれかに限定する
-- その中で、回答にカービング要素がある場合は RD を選ぶ
-- 女性でカービング要素が無い場合は、柔らかさ・扱いやすさ寄りなら LTV、安定感や反発寄りなら LTY を選ぶ
-- Q1で「男性」または「回答しない」の場合、LTV / LTY は提案しない
-
-通常ルール:
-グラトリ×プレス×キャンバー→LTA-F
-グラトリ×弾き×キャンバー×ミドル以上→ZERO
-グラトリ×弾き×キャンバー×ソフト→AX-F
-グラトリ×プレス×可変×ソフト→BX-F
-グラトリ×プレス×可変×ミドル→LTB
-グラトリ×弾き×可変×ソフト→BX
-グラトリ×弾き×可変×ミドル→LTY
-グラトリ×ダブル→DX
-カービング要素あり→RD
-カービング中心×ハード→RD GX
-カービング中心×それ以外→RD
-両方×キャンバー→AX-FまたはLTY
-両方×可変→LTYまたはLTV
-
-【サイズ提案ルール】
-最終入力で身長(cm)と体重(kg)が与えられたら、モデルだけでなく推奨サイズ(cm)も必ず1つ提案してください。
-サイズは身長・体重・スタイルを総合して判断しつつ、必ずそのモデルの実在ラインナップから1つだけ選んでください。存在しない長さは絶対に出さないでください。
-
-【進行ルール】
-- 5問が終わるまでは質問のみ返す
-- 身長・体重がまだ無い段階では結果を返さない
-- 身長・体重が与えられたら、そのタイミングで最終結果を返す
-- 6問目の質問は作らない
-
-【出力形式（JSONのみ・厳守）】
-質問: {"phase":"question","question":"質問文","options":["A","B","C"]}
-結果: {"phase":"result","model":"モデル名","size":150,"reason":"推薦理由2〜3文","tags":["タグ1","タグ2","タグ3"]}
-`;
-
-let history=[], messages=[], qCount=0, currentResult=null, chatHistory=[];
+let currentIndex = 0;
+let answers = {};
+let messages = [];
+let finalData = null;
 
 function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function buildProg(cur,tot,elId){
-  const p=document.getElementById(elId); if(!p)return; p.innerHTML='';
-  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='pd'+(i===cur?' on':i<cur?' done':'');p.appendChild(d);}
+function buildProg(cur, tot, elId){
+  const p = document.getElementById(elId);
+  p.innerHTML = '';
+  for(let i=0;i<tot;i++){
+    const d = document.createElement('div');
+    d.className = 'pd' + (i===cur ? ' on' : i<cur ? ' done' : '');
+    p.appendChild(d);
+  }
 }
 
 function renderHistory(targetId){
-  const el=document.getElementById(targetId); if(!el)return;
-  el.innerHTML=messages.map((m,i)=>`<div class="history-item"><div class="history-q">Q${i+1} ${m.q}</div><div class="history-a">${m.a}</div></div>`).join('')+(messages.length?'<div class="divider"></div>':'');
+  const el = document.getElementById(targetId);
+  el.innerHTML = messages.map((m, i) =>
+    `<div class="history-item"><div class="history-q">Q${i+1} ${m.q}</div><div class="history-a">${m.a}</div></div>`
+  ).join('') + (messages.length ? '<div class="divider"></div>' : '');
 }
 
-
-function getAnswerByKeyword(keyword){
-  const item = messages.find(m => m.q.includes(keyword));
-  return item ? item.a : '';
-}
-
-
-const MODEL_SIZES = {
-  'LTA-F': [146, 153, 156],
-  'AX-F': [150, 152, 154, 156],
-  'LTB': [146, 153, 155],
-  'BX': [148, 150, 152, 154, 156],
-  'BX-F': [148, 150, 152, 154, 156],
-  'DX': [138, 140, 142, 145, 148, 150, 152, 154],
-  'LTY': [139, 141, 145, 148],
-  'LTV': [139, 141, 145, 148],
-  'ZERO': [150, 152, 154, 156],
-  'RD': [142, 146, 149, 150, 151, 152, 154, 157, 160, 162, 163],
-  'RD CV': [142, 145, 148, 150, 152],
-  'RD GX': [142, 146, 149, 150, 151, 152, 154, 157, 160, 162, 163]
-};
-
-const MODEL_CAMBER_MAP = {
-  'LTA-F': 'キャンバー',
-  'AX-F': 'キャンバー',
-  'ZERO': 'キャンバー',
-  'RD': 'キャンバー',
-  'RD CV': 'キャンバー',
-  'RD GX': 'キャンバー',
-  'LTB': '可変キャンバー',
-  'BX': '可変キャンバー',
-  'BX-F': '可変キャンバー',
-  'LTY': '可変キャンバー',
-  'LTV': '可変キャンバー',
-  'DX': 'ダブルキャンバー'
-};
-
-const MODEL_FLEX_RANK = {
-  'DX': 1,
-  'LTV': 2,
-  'LTY': 3,
-  'BX-F': 4,
-  'AX-F': 5,
-  'ZERO': 6,
-  'BX': 7,
-  'LTB': 8,
-  'RD': 9,
-  'RD CV': 9,
-  'RD GX': 10
-};
-
-const MODEL_REASON_LIBRARY = {
-  'DX': {
-    tags: ['SOFT FEEL', 'DOUBLE CAMBER', 'EASY CONTROL'],
-    points: ['しなやかでルーズな乗り味が出しやすい', '低速域でも板さばきしやすい', 'プレスやバターとの相性が高い']
-  },
-  'LTV': {
-    tags: ['SOFT FLEX', 'WOMEN', 'EASY CONTROL'],
-    points: ['女性向けの中でも柔らかく扱いやすい', '低速から地形遊びまで動かしやすい', '足元の自在性を重視しやすい']
-  },
-  'LTY': {
-    tags: ['BALANCE', 'WOMEN', 'RESPONSE'],
-    points: ['女性向けで安定感と反発のバランスが良い', 'ターンとトリックの切り替えがしやすい', 'LTVより少ししっかりした乗り味']
-  },
-  'BX-F': {
-    tags: ['SOFT FLEX', 'PRESS', 'LIGHT SWING'],
-    points: ['可変キャンバーの中でも柔らかく自由度が高い', 'プレス・バター・回し系に合わせやすい', '軽いスウィングで動かしやすい']
-  },
-  'AX-F': {
-    tags: ['CAMBER', 'SPIN', 'TURN UPGRADE'],
-    points: ['グラトリ寄りだがターン性能も伸ばしやすい', '初動が軽くスピン導入がしやすい', '比較的ソフト寄りで扱いやすい']
-  },
-  'ZERO': {
-    tags: ['CAMBER', 'SPIN', 'TRICK FOCUS'],
-    points: ['弾き・飛び系のトリック性能を優先しやすい', 'スピン精度と軽快さを出しやすい', 'グラトリ色が強い']
-  },
-  'BX': {
-    tags: ['VARIABLE CAMBER', 'SPIN', 'EDGE GRIP'],
-    points: ['可変キャンバーで回しやすさと安定性を両立', '弾き・回転系のグラトリと相性が良い', 'ターン時のエッジグリップも出しやすい']
-  },
-  'LTB': {
-    tags: ['VARIABLE CAMBER', 'PRESS', 'BALANCE'],
-    points: ['可変キャンバーの中で安定性と操作性のバランスが良い', 'プレス・バター系を扱いやすい', '遊びやすさと安心感を両立しやすい']
-  },
-  'RD': {
-    tags: ['TURN x TRICK', 'CONTROL', 'ALLROUND'],
-    points: ['トリックとカービングを高い次元で両立しやすい', '「両方やりたい」に最も合いやすい中心モデル', 'グラトリ専用ではなく総合力を重視した設計']
-  },
-  'RD CV': {
-    tags: ['TURN x TRICK', 'COLORWAY', 'ALLROUND'],
-    points: ['RDと同じ性能でカラー違いの選択肢', 'トリックとカービングを両立しやすい', 'RDの乗り味が好みに合う人向け']
-  },
-  'RD GX': {
-    tags: ['HIGH SPEED', 'CARVING', 'GRAPHITE'],
-    points: ['RD系の中でも高速域と滑走性を強めたモデル', 'より強いカービング性能を求める人向け', '直進性と加速感を重視しやすい']
-  },
-  'LTA-F': {
-    tags: ['CAMBER', 'BALANCE', 'CONTROL'],
-    points: ['キャンバーの反発と安定感を活かしつつ扱いやすい', '繊細な動きにも反応しやすい', '自由度とコントロール性のバランスが良い']
-  }
-};
-
-function getAnswerByKeyword(keyword){
-  const item = messages.find(m => m.q.includes(keyword));
-  return item ? item.a : '';
-}
-
-function getNearestAllowedSize(model, size){
-  const allowed = MODEL_SIZES[model];
-  if(!allowed || !allowed.length) return size;
-  const numericSize = Number(size);
-  if(!Number.isFinite(numericSize)) return allowed[0];
-  return allowed.reduce((prev, curr) => Math.abs(curr - numericSize) < Math.abs(prev - numericSize) ? curr : prev, allowed[0]);
-}
-
-function applyMinSizeByProfile(size, height, gender, style){
-  const numericSize = Number(size);
-  const numericHeight = Number(height);
-  if (!Number.isFinite(numericSize) || !Number.isFinite(numericHeight)) return size;
-
-  const isMaleOrUnknown = gender === '男性' || gender === '回答しない' || !gender;
-  const hasCarving = (style || '').includes('カービング') || (style || '').includes('両方');
-  let minSize = null;
-
-  if (isMaleOrUnknown) {
-    if (numericHeight >= 170) minSize = 148;
-    else if (numericHeight >= 160) minSize = 145;
-    else if (numericHeight >= 150) minSize = 142;
-  } else {
-    if (numericHeight >= 165) minSize = 145;
-    else if (numericHeight >= 155) minSize = 142;
-  }
-
-  if (hasCarving) {
-    minSize = minSize === null ? 148 : Math.max(minSize, 148);
-  }
-
-  if (minSize !== null && numericSize < minSize) return minSize;
-  return numericSize;
-}
-
-function scoreModel(model, ctx){
-  const {gender, style, trick, camber, flex} = ctx;
-  let score = 0;
-  const hasCarving = style.includes('カービング') || style.includes('両方');
-  const wantsBoth = style.includes('両方');
-  const wantsDouble = camber.includes('ダブル');
-  const wantsVariable = camber.includes('可変');
-  const wantsCamber = camber.includes('キャンバー');
-  const noCamber = camber.includes('こだわりはない');
-  const wantsSoft = flex.includes('ソフト');
-  const wantsHard = flex.includes('ハード');
-  const wantsMiddle = flex.includes('ミドル');
-  const noFlex = flex.includes('こだわりはない');
-  const isFemale = gender === '女性';
-  const isMaleOrUnknown = !isFemale;
-
-  if ((model === 'LTV' || model === 'LTY') && isMaleOrUnknown) score -= 1000;
-  if (wantsDouble && model !== 'DX') score -= 120;
-  if (wantsDouble && model === 'DX') score += 220;
-
-  if (!noCamber) {
-    if (MODEL_CAMBER_MAP[model] === camber) score += 60;
-    else score -= 30;
-  }
-
-  if (wantsBoth || style.includes('カービング')) {
-    if (model === 'RD') score += 120;
-    if (model === 'RD GX') score += wantsHard ? 140 : 110;
-    if (model === 'RD CV') score += 90;
-    if (['AX-F','ZERO','BX','BX-F','LTB','LTA-F'].includes(model)) score -= 25;
-  }
-
-  if (style.includes('グラトリ')) {
-    if (['AX-F','ZERO','BX','BX-F','LTB','LTA-F','DX'].includes(model)) score += 60;
-    if (model === 'RD') score += 20;
-  }
-
-  if (trick.includes('プレス')) {
-    if (['DX','BX-F','LTB','LTA-F'].includes(model)) score += 45;
-    if (['ZERO','RD GX'].includes(model)) score -= 10;
-  }
-
-  if (trick.includes('弾き')) {
-    if (['ZERO','AX-F','BX','RD','RD GX'].includes(model)) score += 45;
-  }
-
-  const rank = MODEL_FLEX_RANK[model];
-  if (!noFlex && rank) {
-    if (wantsSoft) score -= Math.abs(rank - 3) * 10;
-    if (wantsMiddle) score -= Math.abs(rank - 6) * 8;
-    if (wantsHard) score -= Math.abs(rank - 9.5) * 12;
-  }
-
-  if (isFemale) {
-    if (['LTV','LTY'].includes(model)) score += 45;
-    if (hasCarving && ['RD','RD GX'].includes(model)) score += 40;
-  }
-
-  return score;
-}
-
-function rankModels(ctx){
-  const models = Object.keys(MODEL_SIZES);
-  return models
-    .map(model => ({model, score: scoreModel(model, ctx)}))
-    .sort((a,b) => b.score - a.score)
-    .map(x => x.model);
-}
-
-function normalizeSingleCandidate(model, size, ctx){
-  let normalizedModel = model;
-  if (!MODEL_SIZES[normalizedModel]) {
-    normalizedModel = rankModels(ctx)[0];
-  }
-
-  if ((normalizedModel === 'LTV' || normalizedModel === 'LTY') && ctx.gender !== '女性') {
-    normalizedModel = rankModels(ctx).find(m => m !== 'LTV' && m !== 'LTY') || 'RD';
-  }
-
-  if (ctx.camber && !ctx.camber.includes('こだわりはない')) {
-    const target = MODEL_CAMBER_MAP[normalizedModel];
-    if (target !== ctx.camber) {
-      normalizedModel = rankModels(ctx).find(m => MODEL_CAMBER_MAP[m] === ctx.camber && !(ctx.gender !== '女性' && ['LTV','LTY'].includes(m))) || normalizedModel;
-    }
-  }
-
-  if (ctx.style.includes('両方') || ctx.style.includes('カービング')) {
-    if (ctx.gender !== '女性') {
-      if (!['RD','RD CV','RD GX','DX'].includes(normalizedModel) && !ctx.camber.includes('ダブル')) {
-        normalizedModel = ctx.flex.includes('ハード') ? 'RD GX' : 'RD';
-      }
-    } else {
-      if (ctx.camber.includes('ダブル')) {
-        normalizedModel = 'DX';
-      } else if (ctx.style.includes('カービング')) {
-        normalizedModel = ctx.flex.includes('ハード') ? 'RD GX' : 'RD';
-      }
-    }
-  }
-
-  let normalizedSize = getNearestAllowedSize(normalizedModel, size);
-  normalizedSize = applyMinSizeByProfile(normalizedSize, ctx.height, ctx.gender, ctx.style);
-  normalizedSize = getNearestAllowedSize(normalizedModel, normalizedSize);
-  return { model: normalizedModel, size: normalizedSize };
-}
-
-function buildFinalCandidates(raw){
-  const ctx = {
-    gender: getAnswerByKeyword('性別') || '',
-    style: getAnswerByKeyword('メインスタイル') || '',
-    trick: getAnswerByKeyword('トリックの傾向') || '',
-    camber: getAnswerByKeyword('キャンバー形状') || '',
-    flex: getAnswerByKeyword('フレックス') || '',
-    height: parseFloat((getAnswerByKeyword('身長') || '').replace('cm','')),
-    weight: parseFloat((getAnswerByKeyword('体重') || '').replace('kg',''))
-  };
-
-  const aiPrimaryModel = raw.primary_model || raw.model || '';
-  const aiPrimarySize = raw.primary_size || raw.size;
-  const aiSecondaryModel = raw.secondary_model || '';
-  const aiSecondarySize = raw.secondary_size || '';
-
-  const ranked = rankModels(ctx);
-
-  let primarySeed = aiPrimaryModel;
-  let primarySizeSeed = aiPrimarySize;
-  if (ctx.camber.includes('ダブル')) {
-    primarySeed = 'DX';
-    primarySizeSeed = aiPrimaryModel === 'DX' ? aiPrimarySize : (MODEL_SIZES['DX']?.[0] || 145);
-  }
-
-  let primary = normalizeSingleCandidate(primarySeed, primarySizeSeed, ctx);
-
-  let secondarySeed = '';
-  let secondarySizeSeed = aiSecondarySize;
-  if (ctx.camber.includes('ダブル')) {
-    secondarySeed = ranked.find(m => m !== 'DX') || 'RD';
-    secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== 'DX' ? aiSecondarySize : primary.size;
-  } else {
-    secondarySeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondaryModel : (ranked.find(m => m !== primary.model) || primary.model);
-    secondarySizeSeed = aiSecondaryModel && aiSecondaryModel !== primary.model ? aiSecondarySize : (MODEL_SIZES[secondarySeed] ? MODEL_SIZES[secondarySeed][0] : primary.size);
-  }
-
-  let secondary = normalizeSingleCandidate(secondarySeed, secondarySizeSeed, ctx);
-  if (secondary.model === primary.model) {
-    const alt = ranked.find(m => m !== primary.model && !(ctx.camber.includes('ダブル') && m === 'DX')) || primary.model;
-    secondary = normalizeSingleCandidate(alt, MODEL_SIZES[alt]?.[0], ctx);
-  }
-
-  const pLib = MODEL_REASON_LIBRARY[primary.model] || { tags: raw.tags || [], points: [] };
-  const sLib = MODEL_REASON_LIBRARY[secondary.model] || { tags: [], points: [] };
-
-  return {
-    phase: 'result',
-    primary_model: primary.model,
-    primary_size: primary.size,
-    secondary_model: secondary.model,
-    secondary_size: secondary.size,
-    tags: Array.isArray(raw.tags) && raw.tags.length ? raw.tags : pLib.tags,
-    reason: raw.reason || '',
-    secondary_reason: raw.secondary_reason || '',
-    why_points: pLib.points.slice(0, 3),
-    secondary_tags: sLib.tags,
-    secondary_why_points: sLib.points.slice(0, 3)
-  };
-}
-
-function normalizeResult(raw){
-  if(!raw || typeof raw !== 'object') return raw;
-  if(raw.phase === 'question') return raw;
-  return buildFinalCandidates(raw);
-}
-
-async function callClaude(conv, system, maxTokens=800){
-  const trimmed=conv.length>8?conv.slice(-8):conv;
-  const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:trimmed})});
-  const data=await res.json();
-  if(!res.ok)throw new Error(data?.error?.message||'APIエラー');
-  return data.content.map(b=>b.text||'').join('');
-}
-
-async function startQuiz(){
-  history=[];messages=[];qCount=0;currentResult=null;chatHistory=[];
-  document.getElementById('inp-height').value='';
-  document.getElementById('inp-weight').value='';
+function startQuiz(){
+  currentIndex = 0;
+  answers = {};
+  messages = [];
+  finalData = null;
+  document.getElementById('inp-height').value = '';
+  document.getElementById('inp-weight').value = '';
   document.getElementById('btn-analyze').classList.add('off');
-  show('screen-loading');
-  document.getElementById('loading-txt').textContent='AI解析中...';
-  try{
-    const init=[{role:'user',content:'診断を始めてください。Q1の質問をお願いします。'}];
-    const text=await callClaude(init,SYSTEM);
-    const res=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
-    history=[...init,{role:'assistant',content:JSON.stringify(res)}];
-    qCount=1; renderQuiz(res);
-  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
+  renderQuestion();
 }
 
-function renderQuiz(data){
+function renderQuestion(){
   show('screen-quiz');
-  buildProg(qCount-1,6,'prog');
+  buildProg(currentIndex, 6, 'prog');
   renderHistory('history-area');
-  document.getElementById('divider').classList.toggle('hidden',messages.length===0);
-  document.getElementById('qn').textContent=`Q${qCount} / 6`;
-  document.getElementById('qt').textContent=data.question||'';
-  const area=document.getElementById('opts');
-  area.innerHTML=data.options.map(opt=>`<div class="opt" onclick="handleAnswer(this,'${opt.replace(/'/g,"\\'")}')">${opt}</div>`).join('');
+  document.getElementById('divider').classList.toggle('hidden', messages.length === 0);
+
+  const q = QUESTIONS[currentIndex];
+  document.getElementById('qn').textContent = `Q${currentIndex + 1} / 6`;
+  document.getElementById('qt').textContent = q.text;
+  document.getElementById('opts').innerHTML = q.options
+    .map(opt => `<div class="opt" onclick="handleAnswer(this, '${opt.replace(/'/g, "\\'")}')">${opt}</div>`)
+    .join('');
 }
 
-async function handleAnswer(el,option){
-  document.querySelectorAll('.opt').forEach(o=>o.onclick=null);
+async function handleAnswer(el, option){
+  document.querySelectorAll('.opt').forEach(o => o.onclick = null);
   el.classList.add('sel');
-  messages.push({q:document.getElementById('qt').textContent,a:option});
-  await new Promise(r=>setTimeout(r,280));
-  if(qCount>=5){
-    showBodyScreen();
-    return;
-  }
-  show('screen-loading');
-  document.getElementById('loading-txt').textContent='AI解析中...';
-  const newHistory=[...history,{role:'user',content:option}];
-  try{
-    const text=await callClaude(newHistory,SYSTEM);
-    const res=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
-    history=[...newHistory,{role:'assistant',content:JSON.stringify(res)}];
-    if(res.phase==='question'){
-      qCount++;
-      renderQuiz(res);
-    } else {
-      currentResult=res;
-      showBodyScreen();
-    }
-  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
-}
 
+  const q = QUESTIONS[currentIndex];
+  answers[q.key] = option;
+  messages.push({ q: q.text, a: option });
+
+  await new Promise(r => setTimeout(r, 180));
+
+  if(q.key === 'style' && option === 'カービング中心'){
+    currentIndex = 3; // skip trick
+  } else {
+    currentIndex++;
+  }
+
+  if(currentIndex >= QUESTIONS.length){
+    showBodyScreen();
+  } else {
+    renderQuestion();
+  }
+}
 
 function showBodyScreen(){
   show('screen-body');
-  const totalSteps = messages.length + 1;
-  buildProg(messages.length, totalSteps, 'prog-body');
+  buildProg(5, 6, 'prog-body');
   renderHistory('history-area-body');
-  const qn = document.getElementById('body-qn');
-  const qt = document.getElementById('body-qt');
-  if(qn) qn.textContent = `Q${messages.length + 1} / ${totalSteps}`;
-  if(qt) qt.textContent = '最後に、あなたの身長(cm)と体重(kg)を教えてください。';
   checkBody();
 }
 
+function backFromBody(){
+  show('screen-quiz');
+}
+
 function checkBody(){
-  const h=parseFloat(document.getElementById('inp-height').value);
-  const w=parseFloat(document.getElementById('inp-weight').value);
-  const btn=document.getElementById('btn-analyze');
-  (h>=140&&h<=210&&w>=30&&w<=150)?btn.classList.remove('off'):btn.classList.add('off');
+  const h = parseFloat(document.getElementById('inp-height').value);
+  const w = parseFloat(document.getElementById('inp-weight').value);
+  const btn = document.getElementById('btn-analyze');
+  (h>=140 && h<=210 && w>=30 && w<=150) ? btn.classList.remove('off') : btn.classList.add('off');
 }
 
-function backFromBody(){show('screen-quiz');}
-
-async function submitBody(){
-  const h=parseFloat(document.getElementById('inp-height').value);
-  const w=parseFloat(document.getElementById('inp-weight').value);
-  if(!(h>=140&&h<=210&&w>=30&&w<=150))return;
-  messages = messages.filter(m => m.q !== '身長' && m.q !== '体重');
-  messages.push({q:'身長',a:`${h}cm`});
-  messages.push({q:'体重',a:`${w}kg`});
-  show('screen-loading');
-  document.getElementById('loading-txt').textContent='AI解析中...';
-  const newHistory=[...history,{role:'user',content:`身長:${h}cm 体重:${w}kg。ここまでの回答を総合して、第1候補と第2候補をそれぞれ異なるモデルで提案し、各候補の推奨サイズ(cm)も1つずつ、指定のJSON形式で返してください。`}];
-  try{
-    const text=await callClaude(newHistory,SYSTEM);
-    currentResult=buildFinalCandidates(JSON.parse(text.replace(/```json|```/g,'').trim()));
-    history=[...newHistory,{role:'assistant',content:JSON.stringify(currentResult)}];
-    renderResult(currentResult);
-  }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');return;}
+function isMaleOrUnknown(gender){
+  return gender === '男性' || gender === '回答しない' || !gender;
 }
 
+function hasCarving(style){
+  return style === 'カービング中心' || style === '両方やりたい';
+}
 
-function renderResult(res){
-  document.getElementById('r-model').textContent=res.primary_model||'';
-  document.getElementById('r-size').textContent=res.primary_size?`RECOMMENDED SIZE : ${res.primary_size}cm`:'';
-  document.getElementById('r-reason').textContent=res.reason||'';
-  document.getElementById('r-tags').innerHTML=(res.tags||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
+function choosePrimaryModel(a){
+  const gender = a.gender || '';
+  const style = a.style || '';
+  const trick = a.trick || '';
+  const camber = a.camber || '';
+  const flex = a.flex || '';
 
-  const whyWrap = document.getElementById('why-points');
-  whyWrap.innerHTML = (res.why_points||[]).map((point, idx)=>`<div class="why-point"><div class="why-point-label">${['STYLE MATCH','FLEX MATCH','SHAPE MATCH'][idx] || 'POINT'}</div><div class="why-point-text">${point}</div></div>`).join('');
+  // ダブルキャンバーは第1候補で尊重
+  if(camber === 'ダブルキャンバー') return 'DX';
 
-  const rdShown = [res.primary_model, res.secondary_model].some(m => m && m.includes('RD'));
-  const note=document.getElementById('rd-size-note');
-  if(rdShown) note.classList.remove('hidden');
-  else note.classList.add('hidden');
-
-  const productWrap=document.getElementById('product-link-wrap');
-  const productLink=document.getElementById('product-link');
-  const productUrl=PRODUCT_LINKS[res.primary_model];
-  if(productUrl){
-    productLink.href=productUrl;
-    productWrap.classList.remove('hidden');
-  }else{
-    productWrap.classList.add('hidden');
-  }
-
-  const secondWrap=document.getElementById('second-wrap');
-  const secondProductWrap=document.getElementById('product-link-wrap-2');
-  const secondProductLink=document.getElementById('product-link-2');
-  if(res.secondary_model){
-    document.getElementById('r-model-2').textContent=res.secondary_model||'';
-    document.getElementById('r-size-2').textContent=res.secondary_size?`RECOMMENDED SIZE : ${res.secondary_size}cm`:'';
-    document.getElementById('r-reason-2').textContent=res.secondary_reason||'';
-    document.getElementById('r-tags-2').innerHTML=(res.secondary_tags||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
-    const secondUrl=PRODUCT_LINKS[res.secondary_model];
-    if(secondUrl){
-      secondProductLink.href=secondUrl;
-      secondProductWrap.classList.remove('hidden');
-    }else{
-      secondProductWrap.classList.add('hidden');
+  // 女性
+  if(gender === '女性'){
+    if(hasCarving(style)){
+      return flex === 'ハード' ? 'RD GX' : 'RD';
     }
-    secondWrap.classList.remove('hidden');
-  }else{
-    secondWrap.classList.add('hidden');
+    if(camber === '可変キャンバー' || camber === 'こだわりはない'){
+      return flex === 'ソフト' ? 'LTV' : 'LTY';
+    }
+    return flex === 'ソフト' ? 'LTV' : 'LTY';
   }
 
-  document.getElementById('ai-comment').innerHTML='<div class="ai-comment-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span>コメント生成中...</span></div>';
-  const riders=RIDERS[res.primary_model]||[];
-  const riderWrap=document.getElementById('riders-wrap');
-  if(riders.length){
-    document.getElementById('rider-list').innerHTML=riders.map(r=>`<a class="rider" href="${r.u}" target="_blank" rel="noopener"><div class="rider-icon">${r.n.replace('@','').slice(0,2).toUpperCase()}</div><div class="rider-name">${r.n}</div></a>`).join('');
-    riderWrap.classList.remove('hidden');
-  }else{riderWrap.classList.add('hidden');}
-  document.getElementById('chat-messages').innerHTML='';
-  chatHistory=[];
+  // 男性 / 回答しない
+  if(hasCarving(style)){
+    return flex === 'ハード' ? 'RD GX' : 'RD';
+  }
+
+  if(style === 'グラトリ中心'){
+    if(camber === '可変キャンバー'){
+      if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
+      return flex === 'ハード' ? 'BX' : (flex === 'ソフト' ? 'BX-F' : 'BX');
+    }
+    if(camber === 'キャンバー'){
+      if(trick === '弾き・飛び系') return flex === 'ハード' ? 'ZERO' : 'AX-F';
+      if(trick === 'プレス・バター系') return 'LTA-F';
+      return flex === 'ハード' ? 'ZERO' : 'AX-F';
+    }
+    if(camber === 'こだわりはない'){
+      if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
+      return flex === 'ハード' ? 'ZERO' : 'AX-F';
+    }
+  }
+
+  return 'RD';
+}
+
+function chooseSecondModel(a, first){
+  const gender = a.gender || '';
+  const style = a.style || '';
+  const trick = a.trick || '';
+  const camber = a.camber || '';
+  const flex = a.flex || '';
+
+  if(first === 'DX'){
+    if(gender === '女性'){
+      if(hasCarving(style)) return flex === 'ハード' ? 'RD GX' : 'RD';
+      return flex === 'ソフト' ? 'LTV' : 'LTY';
+    }
+    if(hasCarving(style)) return flex === 'ハード' ? 'RD GX' : 'RD';
+    if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
+    return flex === 'ハード' ? 'ZERO' : 'AX-F';
+  }
+
+  if(first === 'RD GX') return 'RD';
+  if(first === 'RD') {
+    if(camber === 'ダブルキャンバー') return 'DX';
+    if(style === 'グラトリ中心'){
+      if(camber === '可変キャンバー') return trick === 'プレス・バター系' ? (flex === 'ソフト' ? 'BX-F' : 'LTB') : 'BX';
+      return flex === 'ハード' ? 'ZERO' : 'AX-F';
+    }
+    return 'RD GX';
+  }
+
+  if(first === 'LTV') return 'LTY';
+  if(first === 'LTY') return 'LTV';
+  if(first === 'BX-F') return 'LTB';
+  if(first === 'LTB') return 'BX';
+  if(first === 'BX') return 'LTB';
+  if(first === 'AX-F') return 'ZERO';
+  if(first === 'ZERO') return 'AX-F';
+  if(first === 'LTA-F') return 'AX-F';
+
+  return 'RD';
+}
+
+function baseSize(height, weight, style, flex){
+  let s;
+  if(height < 145) s = 138;
+  else if(height < 150) s = 142;
+  else if(height < 155) s = 145;
+  else if(height < 160) s = 148;
+  else if(height < 165) s = 150;
+  else if(height < 170) s = 152;
+  else if(height < 175) s = 154;
+  else s = 156;
+
+  if(weight < 45) s -= 2;
+  else if(weight < 55) s -= 1;
+  else if(weight >= 70) s += 2;
+  else if(weight >= 60) s += 1;
+
+  if(style === 'グラトリ中心') s -= 1;
+  if(style === 'カービング中心') s += 1;
+  if(flex === 'ソフト') s -= 1;
+  if(flex === 'ハード') s += 1;
+
+  return s;
+}
+
+function minimumSize(height, gender, style){
+  let min = 0;
+
+  if(isMaleOrUnknown(gender)){
+    if(height >= 170) min = Math.max(min, 148);
+    else if(height >= 160) min = Math.max(min, 145);
+    else if(height >= 150) min = Math.max(min, 142);
+
+    if(hasCarving(style)) min = Math.max(min, 148);
+  } else {
+    if(height >= 160) min = Math.max(min, 145);
+    if(hasCarving(style) && height >= 150) min = Math.max(min, 145);
+  }
+
+  return min;
+}
+
+function chooseAllowedSize(model, target, minFloor){
+  const sizes = MODELS[model].sizes.slice().sort((a,b)=>a-b);
+  let filtered = sizes.filter(v => v >= minFloor);
+  if(!filtered.length) filtered = sizes;
+
+  return filtered.reduce((best, cur) =>
+    Math.abs(cur - target) < Math.abs(best - target) ? cur : best, filtered[0]);
+}
+
+function buildWhyTexts(a, firstModel){
+  const style = a.style || '';
+  const flex = a.flex || '';
+  const camber = a.camber || '';
+  const first = MODELS[firstModel];
+
+  let styleText = '';
+  if(style === '両方やりたい'){
+    styleText = 'トリックとカービングを両立したい意図を最優先して、第1候補を選定しています。';
+  } else if(style === 'カービング中心'){
+    styleText = 'カービング重視の回答を優先し、安定感・エッジコントロールを重視して選定しています。';
+  } else {
+    styleText = 'グラトリ中心の回答を優先し、扱いやすさやトリック性能を重視して選定しています。';
+  }
+
+  let flexText = '';
+  if(flex === 'ハード'){
+    flexText = '硬め志向に合わせて、柔らかすぎるモデルは避け、しっかり感のあるモデルを優先しています。';
+  } else if(flex === 'ソフト'){
+    flexText = '柔らかめ志向に合わせて、自由度や扱いやすさを出しやすいモデルを優先しています。';
+  } else if(flex === 'ミドル'){
+    flexText = 'ミドル志向として、扱いやすさと安定感のバランスが取りやすいモデルを見ています。';
+  } else {
+    flexText = `${firstModel}の乗り味が回答全体と最も噛み合うため、フレックスの細かな指定がなくても整合する候補として選んでいます。`;
+  }
+
+  let shapeText = '';
+  if(camber === 'ダブルキャンバー'){
+    shapeText = 'ダブルキャンバー希望を尊重し、第1候補にはDXを置いたうえで、他回答に近い第2候補も比較できる形にしています。';
+  } else if(camber === '可変キャンバー'){
+    shapeText = '可変キャンバー希望を重視しつつ、スタイルとの整合性が高いモデルを優先しています。';
+  } else if(camber === 'キャンバー'){
+    shapeText = 'キャンバー希望を前提に、反発・安定感・ターン性能の方向性が合うモデルを選んでいます。';
+  } else {
+    shapeText = '形状指定が強くないため、スタイルとフレックスの回答をより重く見て候補を選んでいます。';
+  }
+
+  return { styleText, flexText, shapeText };
+}
+
+function buildComment(a, firstModel, firstSize, secondModel, secondSize){
+  const style = a.style || '';
+  const first = MODELS[firstModel];
+  const second = MODELS[secondModel];
+
+  let styleLead = '';
+  if(style === '両方やりたい'){
+    styleLead = `${firstModel} ${firstSize}cmは、トリックとカービングの両立を最優先で考えたときに最も自然な候補です。`;
+  } else if(style === 'カービング中心'){
+    styleLead = `${firstModel} ${firstSize}cmは、カービング重視の回答に対して安定感とコントロール性のバランスが取りやすい候補です。`;
+  } else {
+    styleLead = `${firstModel} ${firstSize}cmは、グラトリ中心の回答に対して扱いやすさと得意分野の一致が大きい候補です。`;
+  }
+
+  return `${styleLead} 一方、${secondModel} ${secondSize}cmは、少し違う方向から相性の良さを出せる比較候補です。第1候補は今回の回答に最も素直に合う一本、第2候補は乗り味を少し変えて選びたい場合の有力候補として見てください。`;
+}
+
+function renderResult(data){
+  const first = data.first;
+  const second = data.second;
+
+  document.getElementById('first-model').textContent = first.model;
+  document.getElementById('first-size').textContent = `RECOMMENDED SIZE : ${first.size}cm`;
+  document.getElementById('first-tags').innerHTML = MODELS[first.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+  document.getElementById('first-reason').textContent = MODELS[first.model].reason;
+  document.getElementById('first-link').href = PRODUCT_LINKS[first.model];
+  document.getElementById('first-rd-note').classList.toggle('hidden', !first.model.includes('RD'));
+
+  document.getElementById('second-model').textContent = second.model;
+  document.getElementById('second-size').textContent = `RECOMMENDED SIZE : ${second.size}cm`;
+  document.getElementById('second-tags').innerHTML = MODELS[second.model].tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+  document.getElementById('second-reason').textContent = MODELS[second.model].reason;
+  document.getElementById('second-link').href = PRODUCT_LINKS[second.model];
+  document.getElementById('second-rd-note').classList.toggle('hidden', !second.model.includes('RD'));
+
+  const why = buildWhyTexts(data.answers, first.model);
+  document.getElementById('why-style').textContent = why.styleText;
+  document.getElementById('why-flex').textContent = why.flexText;
+  document.getElementById('why-shape').textContent = why.shapeText;
+
+  document.getElementById('diagnosis-comment').textContent = buildComment(data.answers, first.model, first.size, second.model, second.size);
+
+  const riderCandidates = [...(RIDERS[first.model] || []), ...(RIDERS[second.model] || [])];
+  const unique = [];
+  const seen = new Set();
+  riderCandidates.forEach(r => {
+    const key = r.n + r.u;
+    if(!seen.has(key)){ seen.add(key); unique.push(r); }
+  });
+
+  document.getElementById('rider-list').innerHTML = unique.length
+    ? unique.map(r => `<a class="rider" href="${r.u}" target="_blank" rel="noopener"><div class="rider-icon">${r.n.replace('@','').slice(0,2).toUpperCase()}</div><div class="rider-name">${r.n}</div></a>`).join('')
+    : `<div class="why-text">この候補に紐づくライダー情報は現在準備中です。</div>`;
+
+  document.getElementById('chat-messages').innerHTML = '';
   show('screen-result');
-  window.scrollTo({top:0,behavior:'smooth'});
-  generateAIComment(res);
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-async function generateAIComment(res){
-  const el=document.getElementById('ai-comment');
-  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\\n');
-  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家です。ユーザーの診断回答をもとに、第1候補と第2候補の違いも含めて、納得感のある短いコメントを生成してください。120〜180文字の自然な日本語で、売り込みすぎず、比較がわかるようにしてください。候補サイズは入力された確定サイズだけを使い、それ以外のサイズには触れないでください。`;
-  const prompt=`第1候補: ${res.primary_model} / ${res.primary_size}cm\\n第2候補: ${res.secondary_model} / ${res.secondary_size}cm\\nユーザー回答:\\n${qaLog}\\n第1候補理由: ${res.reason}\\n第2候補理由: ${res.secondary_reason}\\nコメントを生成してください。`;
-  try{
-    const comment=await callClaude([{role:'user',content:prompt}],system,450);
-    el.textContent=comment.trim();
-  }catch(e){
-    el.textContent=`第1候補の${res.primary_model}は総合バランスを重視した選択です。第2候補の${res.secondary_model}は乗り味の方向性を少し変えたい場合の有力候補として比較してください。`;
+function submitBody(){
+  const height = parseFloat(document.getElementById('inp-height').value);
+  const weight = parseFloat(document.getElementById('inp-weight').value);
+  if(!(height>=140 && height<=210 && weight>=30 && weight<=150)) return;
+
+  messages = messages.filter(m => m.q !== '身長' && m.q !== '体重');
+  messages.push({ q:'身長', a:`${height}cm` });
+  messages.push({ q:'体重', a:`${weight}kg` });
+
+  const firstModel = choosePrimaryModel(answers);
+  let secondModel = chooseSecondModel(answers, firstModel);
+  if(secondModel === firstModel){
+    secondModel = firstModel === 'RD' ? 'RD GX' : 'RD';
+    if(secondModel === firstModel) secondModel = 'AX-F';
   }
+
+  const base = baseSize(height, weight, answers.style || '', answers.flex || '');
+  const floor = minimumSize(height, answers.gender || '', answers.style || '');
+
+  const firstSize = chooseAllowedSize(firstModel, base, floor);
+  const secondBase = base + (MODELS[secondModel].flexRank > MODELS[firstModel].flexRank ? 1 : 0);
+  const secondSize = chooseAllowedSize(secondModel, secondBase, floor);
+
+  finalData = {
+    answers: { ...answers, height, weight },
+    first: { model:firstModel, size:firstSize },
+    second: { model:secondModel, size:secondSize }
+  };
+
+  renderResult(finalData);
 }
 
-async function sendChat(){
-  const input=document.getElementById('chat-input');
-  const sendBtn=document.getElementById('chat-send');
-  const msg=input.value.trim();
-  if(!msg||sendBtn.disabled)return;
-  input.value=''; sendBtn.disabled=true;
-  const chatArea=document.getElementById('chat-messages');
-  const userDiv=document.createElement('div'); userDiv.className='chat-msg user'; userDiv.textContent=msg; chatArea.appendChild(userDiv);
-  const loadDiv=document.createElement('div'); loadDiv.className='chat-msg loading'; loadDiv.innerHTML='<div class="dot-pulse"><span></span><span></span><span></span></div>'; chatArea.appendChild(loadDiv);
-  chatArea.scrollTop=chatArea.scrollHeight;
-  const qaLog=messages.map((m,i)=>`Q${i+1}: ${m.q} → ${m.a}`).join('\n');
-  const system=`あなたはSPREAD SNOWBOARDSのスノーボード専門家アドバイザーです。第1候補: ${currentResult?.primary_model||''}。第2候補: ${currentResult?.secondary_model||''}。第1候補理由: ${currentResult?.reason||''}\nユーザー回答:\n${qaLog}\n150文字以内で簡潔に答えてください。マークダウン不要。`;
-  const trimmedChat=chatHistory.length>6?chatHistory.slice(-6):[...chatHistory];
-  trimmedChat.push({role:'user',content:msg});
-  try{
-    const reply=await callClaude(trimmedChat,system,400);
-    chatHistory.push({role:'user',content:msg}); chatHistory.push({role:'assistant',content:reply});
-    loadDiv.remove();
-    const aiDiv=document.createElement('div'); aiDiv.className='chat-msg ai'; aiDiv.textContent=reply.trim(); chatArea.appendChild(aiDiv);
-  }catch(e){
-    loadDiv.remove();
-    const errDiv=document.createElement('div'); errDiv.className='chat-msg ai'; errDiv.textContent='申し訳ありません、もう一度お試しください。'; chatArea.appendChild(errDiv);
+function sendChat(){
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if(!msg || !finalData) return;
+
+  const area = document.getElementById('chat-messages');
+  area.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+
+  const a = finalData.answers;
+  const first = finalData.first;
+  const second = finalData.second;
+
+  let reply = '';
+  if(/サイズ|長さ/.test(msg)){
+    reply = `今回の回答では、第1候補は${first.model} ${first.size}cm、第2候補は${second.model} ${second.size}cmです。身長${a.height}cm・体重${a.weight}kgに対して、短すぎる長さは避けて提案しています。`;
+  } else if(/違い|比較/.test(msg)){
+    reply = `${first.model}は${MODELS[first.model].reason} 一方、${second.model}は${MODELS[second.model].reason}`;
+  } else if(/RD|ワイド|S|W/.test(msg) && (first.model.includes('RD') || second.model.includes('RD'))){
+    reply = `RDシリーズが候補に入っているため、通常モデルに加えてW（ワイド）・S（スーパーワイド）も確認する価値があります。特に足が大きい方や深いカービングをしたい場合は相性が良いです。`;
+  } else {
+    reply = `第1候補は${first.model} ${first.size}cm、第2候補は${second.model} ${second.size}cmです。今回の回答では「${a.style}」を強く反映して候補を出しています。`;
   }
-  chatArea.scrollTop=chatArea.scrollHeight; sendBtn.disabled=false; input.focus();
+
+  area.innerHTML += `<div class="chat-msg ai">${reply}</div>`;
+  area.scrollTop = area.scrollHeight;
+  input.value = '';
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
-  ['inp-height','inp-weight'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){
-      el.addEventListener('keydown',e=>{
-        if(e.key==='Enter' && !document.getElementById('btn-analyze').classList.contains('off')) submitBody();
-      });
-    }
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if(e.key === 'Enter') sendChat();
+  });
+  ['inp-height','inp-weight'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if(e.key === 'Enter' && !document.getElementById('btn-analyze').classList.contains('off')) submitBody();
+    });
   });
 });
 
 function resetQuiz(){
-  history=[];messages=[];qCount=0;currentResult=null;chatHistory=[];
-  document.getElementById('inp-height').value='';
-  document.getElementById('inp-weight').value='';
-  document.getElementById('btn-analyze').classList.add('off');
+  startQuiz();
   show('screen-intro');
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 </script>
 </body>
