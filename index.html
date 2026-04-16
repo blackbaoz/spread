@@ -289,6 +289,42 @@ function renderHistory(targetId){
   el.innerHTML=messages.map((m,i)=>`<div class="history-item"><div class="history-q">Q${i+1} ${m.q}</div><div class="history-a">${m.a}</div></div>`).join('')+(messages.length?'<div class="divider"></div>':'');
 }
 
+
+function getAnswerByKeyword(keyword){
+  const item = messages.find(m => m.q.includes(keyword));
+  return item ? item.a : '';
+}
+
+function normalizeResult(res){
+  if(!res || typeof res !== 'object') return res;
+  const gender = getAnswerByKeyword('性別');
+  const style = getAnswerByKeyword('メインスタイル');
+  const camber = getAnswerByKeyword('キャンバー形状');
+  const flex = getAnswerByKeyword('フレックス');
+
+  if(gender === '女性'){
+    const hasCarving = (style && (style.includes('カービング') || style.includes('両方')));
+    if(hasCarving){
+      res.model = 'RD';
+    }else{
+      const softPreferred = (flex && (flex.includes('ソフト') || flex.includes('こだわりはない')));
+      const variablePreferred = (camber && (camber.includes('可変') || camber.includes('こだわりはない')));
+      res.model = (softPreferred || variablePreferred) ? 'LTV' : 'LTY';
+    }
+
+    if(!Array.isArray(res.tags)) res.tags = [];
+    const baseTags = {
+      'RD': ['CARVING', 'CONTROL', 'STABILITY'],
+      'LTV': ['SOFT FLEX', 'EASY CONTROL', 'FREESTYLE'],
+      'LTY': ['BALANCE', 'RESPONSE', 'ALLROUND']
+    };
+    res.tags = baseTags[res.model];
+  }
+
+  return res;
+}
+
+
 async function callClaude(conv, system, maxTokens=800){
   const trimmed=conv.length>8?conv.slice(-8):conv;
   const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,system,messages:trimmed})});
@@ -307,7 +343,7 @@ async function startQuiz(){
   try{
     const init=[{role:'user',content:'診断を始めてください。Q1の質問をお願いします。'}];
     const text=await callClaude(init,SYSTEM);
-    const res=JSON.parse(text.replace(/```json|```/g,'').trim());
+    const res=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
     history=[...init,{role:'assistant',content:JSON.stringify(res)}];
     qCount=1; renderQuiz(res);
   }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');}
@@ -339,7 +375,7 @@ async function handleAnswer(el,option){
   const newHistory=[...history,{role:'user',content:option}];
   try{
     const text=await callClaude(newHistory,SYSTEM);
-    const res=JSON.parse(text.replace(/```json|```/g,'').trim());
+    const res=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
     history=[...newHistory,{role:'assistant',content:JSON.stringify(res)}];
     if(res.phase==='question'){qCount++;renderQuiz(res);} 
     else {currentResult=res; buildProg(5,6,'prog-body'); renderHistory('history-area-body'); show('screen-body');}
@@ -366,7 +402,7 @@ async function submitBody(){
   const newHistory=[...history,{role:'user',content:`身長:${h}cm 体重:${w}kg。ここまでの回答を総合して、最適なモデルを1つと推奨サイズ(cm)を1つ、指定のJSON形式で返してください。`}];
   try{
     const text=await callClaude(newHistory,SYSTEM);
-    currentResult=JSON.parse(text.replace(/```json|```/g,'').trim());
+    currentResult=normalizeResult(JSON.parse(text.replace(/```json|```/g,'').trim()));
     history=[...newHistory,{role:'assistant',content:JSON.stringify(currentResult)}];
     renderResult(currentResult);
   }catch(e){alert('通信エラーが発生しました。もう一度お試しください。');show('screen-intro');return;}
