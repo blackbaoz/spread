@@ -299,88 +299,64 @@ const PRODUCT_LINKS = {
 
 const MODELS = {
   'LTA-F': {
-    camber:'キャンバー', flexRank:1,
-    // PDFスペック表より: 148, 151, 153, 156
-    sizes:[148,151,153,156],
+    camber:'キャンバー', flexRank:1, sizes:[146,153,156],
     tags:['CAMBER','BALANCE','CONTROL'],
-    reason:'センターフレックスをやや抑えめに設定したキャンバーモデル。キャンバー特有の反発力と安定感を活かしながら、エッジの切り替えが素早く繊細な動きにも滑らかに反応する高い操作性を実現。ミドルソフトのフレックスはハードなトリックでもストレスなく踏み込める懐の深さを持ち、プレス・バター系から弾き系まで幅広く対応できるグラトリ万能モデル。軽量性・正確性・操作性の三拍子が揃った一本。'
+    reason:'キャンバーの反発を活かしながら、扱いやすさも重視した万能寄りのグラトリモデルです。プレス・バター系でも板を無理なくコントロールしやすく、自由度と安定感のバランスが取りやすいのが特徴です。細かい動きに素直に反応してくれるため、グラトリをしっかり楽しみつつ基礎的なターン性能も欲しい人に向いています。'
   },
   'AX-F': {
-    camber:'キャンバー', flexRank:2,
-    // PDFスペック表より: 145, 148, 150, 152, 154, 156
-    sizes:[145,148,150,152,154,156],
+    camber:'キャンバー', flexRank:2, sizes:[150,152,154,156],
     tags:['CAMBER','EDGE HOLD','SPIN'],
-    reason:'LTA-Fをベースに有効エッジを延長しフレックスバランスを丁寧に調整。ターン時の安定感とエッジの噛みが大幅に向上し、スピンの初動が軽くスムーズになった弾き・飛び系グラトリ特化モデル。驚異的なスウィングウェイト軽量化により縦・横・回転の多彩な動きに対応する自由度が大幅アップ。グラトリのトリック精度をワンランク上げたいライダー、弾き・飛び系に力を入れたいライダーに最適な一本。'
+    reason:'グラトリ寄りの中でも、ターン性能を少し伸ばしたい人向けのモデルです。有効エッジ延長による安定感がありつつ、初動の軽さもあるため、弾き・飛び系や回転系の気持ちよさも残しています。グラトリ中心だけど、ただ柔らかいだけでは物足りず、ターン時の安心感も欲しい人に合います。'
   },
   'LTB': {
-    camber:'可変キャンバー（SVC）', flexRank:3,
-    // PDFスペック表より: 148, 151, 153, 156
-    sizes:[148,151,153,156],
-    tags:['SVC','PRESS','ALL-ROUND'],
-    reason:'可変キャンバー（SVC）を採用し、高い汎用性と順応性を備えたモデル。ノーズ・テールのフラットゾーンが接雪を安定させ、着地やプレスをイージーに決められる設計。センターのキャンバーがオーリー時の反発力をしっかり確保しつつ、可変機構がもたらすルーズでしなやかなライドフィールがプレス・バター系との抜群の相性を生む。整地から地形遊びまで幅広いコンディションに対応できる、扱いやすさと遊びやすさのバランスに優れたオールラウンドモデル。'
+    camber:'可変キャンバー', flexRank:4, sizes:[146,153,155],
+    tags:['VARIABLE','PRESS','BALANCE'],
+    reason:'可変キャンバーらしい遊びやすさに、安定性も備えたバランス型です。プレス・バター系との相性が高く、足元で板を扱いやすい一方で、フラットすぎず反応も残っています。可変キャンバーの中でもクセが強すぎず、遊びやすさと安心感を両立したい人に向いています。'
   },
   'BX': {
-    camber:'可変キャンバー（SVC）', flexRank:3.5,
-    // PDFスペック表より: 145, 148, 150, 152, 154, 156
-    sizes:[145,148,150,152,154,156],
-    tags:['SVC','SPIN','RESPONSE'],
-    reason:'LTBをベースに有効エッジを延長しフレックスを最適化。ターン時の安定性とエッジグリップが向上し、スピン動作の立ち上がりが軽くトリック全般の回しやすさが大幅にアップ。スウィングウェイトの軽量化でボードの振り替え・切り返しが軽快になり、素早い動作への追従性が向上。従来の可変キャンバーのフィーリングを残しながら弾き・飛び系トリックの表現の幅を広げたい、グラトリをさらに深掘りしたいライダーに向くモデル。'
+    camber:'可変キャンバー', flexRank:3, sizes:[148,150,152,154,156],
+    tags:['VARIABLE','SPIN','RESPONSE'],
+    reason:'可変キャンバー系の中で、回しやすさや立ち上がりの軽さを重視したモデルです。エッジグリップやターンの安定感もある程度確保しつつ、スピンや弾き系トリックの気持ちよさを出しやすいのが特徴です。遊びやすさは欲しいけれど、ただ柔らかいだけでなく少し反応の良さも欲しい人に合います。'
   },
   'BX-F': {
-    camber:'可変キャンバー（SVC）', flexRank:1.5,
-    // PDFスペック表より: 145, 148, 150, 152, 154, 156
-    sizes:[145,148,150,152,154,156],
-    tags:['SVC','SOFT FLEX','FREESTYLE'],
-    reason:'BXをベースにソフトフレックスを採用し軽量化。スウィングウェイトが大きく軽減され回転性能が大幅向上したグラトリ特化モデル。キャンバーの反発力と安定性を維持しつつしなやかさをプラスすることで、繊細な動きにも素直に反応する高い操作性を実現。ソフトフレックスによる足元の自由度の高さはプレス・バター・回し系との相性が抜群で、軽快でリズムよく板を動かしたいライダーに最適な一本。'
+    camber:'可変キャンバー', flexRank:1.5, sizes:[148,150,152,154,156],
+    tags:['SOFT FEEL','VARIABLE','FREESTYLE'],
+    reason:'可変キャンバー系の中でも柔らかく、自由度の高いモデルです。プレス・バター・回し系を軽快に楽しみたい人に向いており、低速域でも板を動かしやすいのが魅力です。とにかく遊びやすさと軽快さを優先したい人、柔らかめの乗り味でグラトリを楽しみたい人に合います。'
   },
   'DX': {
-    camber:'ダブルキャンバー（W CAMBER）', flexRank:0.5,
-    // PDFスペック表より: 136, 138, 140, 142, 145, 148, 150, 152, 154
-    sizes:[136,138,140,142,145,148,150,152,154],
-    tags:['W-CAMBER','EASY CONTROL','LOOSE'],
-    reason:'SPREADらしい軽量性・操作性にダブルキャンバー特有のしなやかさを融合したモデル。センター部の反発とエッジグリップを残しつつ、ノーズ・テールのロッカーがルーズさと自在性をプラス。低速でも扱いやすくスウィングウェイトの軽減でスピン性能も向上。プレスやバターでの板さばきが格段にしやすく、幅広いサイズ展開で男女問わず楽しめる。軽快なスタイルで自由に板を操りたいライダーや、グラトリ入門にも最適な一本。'
+    camber:'ダブルキャンバー', flexRank:0.5, sizes:[138,140,142,145,148,150,152,154],
+    tags:['DOUBLE CAMBER','EASY CONTROL','LOOSE'],
+    reason:'ダブルキャンバーならではのルーズさ、しなやかさ、扱いやすさが魅力のモデルです。男女共通で、低速域の遊びやすさや軽快さを求める人に合います。エッジの掛かりすぎを抑えつつ、必要な場面ではしっかり反応してくれるため、地形遊びやグラトリを軽快に楽しみたい人に向いています。'
   },
   'LTY': {
-    camber:'可変キャンバー（SVC）', flexRank:2,
-    // PDFスペック表より: 136, 139, 141, 143, 145, 148
-    sizes:[136,139,141,143,145,148],
-    tags:['SVC','BALANCE','ALL-STYLE'],
-    reason:'今年から可変キャンバー構造を採用し、キャンバーベースの反発力とエッジグリップを維持しながら状況に応じてしなやかに変化する自在性を獲得。ミディアムフレックスながらノーズ・テールに適度な張りを持たせ、高速域でも挙動が安定してラインを正確に描けるライドフィール。スピードを出したカービングからトリックへの切り替えまでスムーズにこなせ、反発性・正確性・操作性の三拍子が揃ったカービングとグラトリ両立モデル。ラントリ系にも強い。'
+    camber:'可変キャンバー', flexRank:1.3, sizes:[139,141,145,148],
+    tags:['WOMEN','BALANCE','RESPONSE'],
+    reason:'女性向けの可変キャンバーで、反発と安定感のバランスが良いモデルです。LTVより少ししっかり感があり、ターン性能も欲しい人に向きます。扱いやすさは残しつつ、少し反発や頼もしさも欲しい女性ライダーに合う一本です。'
   },
   'LTV': {
-    camber:'可変キャンバー（SVC）', flexRank:1.0,
-    // PDFスペック表より: 136, 139, 141, 143, 145, 148
-    sizes:[136,139,141,143,145,148],
-    tags:['SVC','SOFT FLEX','RESPONSIVE'],
-    reason:'今年から可変キャンバー構造を採用し、従来のシャープな操作性を残しながら状況に応じたしなやかな変化が加わった進化モデル。キャンバーの反発力と確かなエッジグリップで高いターン性能を確保しつつ、センターフレックスをソフトに設定することで足元の自在性を向上。反発力を活かしたオーリーパワーと繊細なコントロール性を両立させ、低速から高速、地形遊びまで扱いやすさが一段と向上。柔らかめのフィーリングでカービングもグラトリも楽しみたい人に。'
+    camber:'可変キャンバー', flexRank:1.0, sizes:[139,141,145,148],
+    tags:['WOMEN','SOFT FEEL','EASY CONTROL'],
+    reason:'女性向けの可変キャンバーで、柔らかさと扱いやすさを重視したモデルです。低速でも扱いやすく、自由度を求める人に合います。反応が強すぎないため、板をやさしくコントロールしたい人や、遊びやすさを最優先したい人に向いています。'
   },
   'ZERO': {
-    camber:'キャンバー', flexRank:2.5,
-    // PDFスペック表より: 145, 148, 150, 152, 154, 156
-    sizes:[145,148,150,152,154,156],
-    tags:['CAMBER','SPIN','TRICK SPEC'],
-    reason:'堀内礼監修。LTA-Fをベースに有効エッジを延長しフレックスバランスを最適化し、トリックにおけるスピン性能をより高い次元へ引き上げたグラトリ特化モデル。エッジの安定感が増し回転の初動が軽くスムーズになるため多方向への動きに素直に反応し精度の高いトリックを可能にする。驚異的なスウィングウェイト軽量化で振り回しや切り返しがより軽快になり、グラトリから地形遊びまでライダーの表現力を最大限に引き出す仕上がり。'
+    camber:'キャンバー', flexRank:2.5, sizes:[150,152,154,156],
+    tags:['CAMBER','SPIN','TRICK FOCUS'],
+    reason:'弾き・飛び系トリックやスピン性能を重視した、グラトリ色の強いモデルです。カービング主軸ではなく、トリック精度や回転性能を優先したい人向けです。キレのある動きや初動の軽さを求める人、グラトリの完成度を一段上げたい人に合います。'
   },
   'RD': {
-    camber:'キャンバー', flexRank:4.5,
-    // PDFスペック表より(通常W): 145,148,150,152,154 + Sシリーズ: 151S,154S,157S,160S,163S + Wシリーズ: 150W,154W,158W,162W
-    sizes:[145,148,150,152,154],
-    tags:['CARVING','TRICK','81% EDGE'],
-    reason:'菅谷佑之介監修。トリックとカービングに特化したRDシリーズの中核モデル。全長に対する有効エッジ率81%というラウンド形状により、雪面を素早く捉える応答性と正確なエッジングを実現。シングルサイドカーブがもたらす一貫したエッジコントロールはそのままに、ターン・トリック双方における俊敏な捉えが特徴。カービングもトリックも高い次元で両立させたいライダーの定番モデル。通常モデルのほかW（ワイド）・S（スーパーワイド）もあり。'
+    camber:'キャンバー', flexRank:4.5, sizes:[142,146,149,150,151,152,154,157,160,162,163],
+    tags:['CARVING','ALLROUND','CONTROL'],
+    reason:'トリックとカービングを高い次元で両立したい人に最も合いやすい中心モデルです。グラトリ専用ではなく、ターン性能も妥協したくない人に向いています。板をしっかり踏んだときの安定感がありつつ、トリックにもつなげやすいので、滑り全体の完成度を上げたい人におすすめです。'
   },
   'RD CV': {
-    camber:'キャンバー', flexRank:4.5,
-    // PDFスペック表より: 142, 145, 148, 150, 152
-    sizes:[142,145,148,150,152],
-    tags:['CARVING','TRICK','COLOR MODEL'],
-    reason:'RDと同じ設計・性能を持つカラーバリエーションモデル。有効エッジ率81%のラウンド形状でターン・トリック双方における俊敏な捉えを実現。RDと同一の走破性・操作性・エッジコントロール性能を持ちながら、デザインで個性を出したいライダーに向けたモデル。S/Wモデルの設定はなく、142cmはCVモデルのみの展開。カービングもグラトリも妥協しない人の有力な選択肢。'
+    camber:'キャンバー', flexRank:4.5, sizes:[142,145,148,150,152],
+    tags:['CARVING','ALLROUND','COLOR MODEL'],
+    reason:'RDと同じ思想・性能を持つカラーバリエーションモデルです。トリックとカービングの両立を求める人に向いています。短めサイズ帯でRD系の性能を選びたい人にも噛み合いやすく、見た目の好みと性能を両立したい場合の有力候補になります。'
   },
   'RD GX': {
-    camber:'キャンバー', flexRank:5,
-    // PDFスペック表より(通常W): 145,148,150,152,154 + Sシリーズ + Wシリーズ
-    sizes:[145,148,150,152,154],
-    tags:['HIGH SPEED','GRAPHITE SOLE','CARVING'],
-    reason:'RDにグラファイトソールを採用し滑走性をさらに強化した上位モデル。雪質変化に左右されにくく高い直進性と加速性能を発揮し、RDシリーズ特有の操作性とエッジコントロールをよりハイスピード域でも安定して引き出せる。カービングとトリックの両立というRDの哲学を継承しながら、よりスピード感と滑走性にこだわりたいライダーに最適。フレックスはRDよりやや硬めで踏み込みに対する反応が鋭い。'
+    camber:'キャンバー', flexRank:5, sizes:[142,146,149,150,151,152,154,157,160,162,163],
+    tags:['HIGH SPEED','CARVING','GRAPHITE'],
+    reason:'RDシリーズの中でも、より高速域や滑走性、直進性を求める人向けのモデルです。ハイスピードカービングや強めの滑走性能を重視するならこちらです。RDの両立性能をベースにしつつ、よりスピード感のある滑りやシャープなターンを楽しみたい人に向いています。'
   }
 };
 
@@ -589,116 +565,95 @@ function hasCarving(style){
 }
 
 function choosePrimaryModel(a){
+  const gender = a.gender || '';
   const style = a.style || '';
   const trick = a.trick || '';
   const camber = a.camber || '';
   const flex = a.flex || '';
+  const height = Number(a.height || 0);
 
-  // ダブルキャンバー希望は最優先
   if(camber === 'ダブルキャンバー') return 'DX';
 
-  // カービング中心
-  if(style === 'カービング中心'){
-    if(flex === 'ハード') return 'RD GX';
-    if(camber === '可変キャンバー') return flex === 'ソフト' ? 'LTV' : 'LTY';
-    return 'RD'; // キャンバー or こだわりなし
+  // 女性
+  if(gender === '女性'){
+    if(hasCarving(style)){
+      return flex === 'ハード' ? 'RD GX' : pickRDVariant('RD', height);
+    }
+    if(camber === '可変キャンバー' || camber === 'こだわりはない'){
+      return flex === 'ソフト' ? 'LTV' : 'LTY';
+    }
+    if(camber === 'キャンバー'){
+      return pickRDVariant('RD', height);
+    }
+    return flex === 'ソフト' ? 'LTV' : 'LTY';
   }
 
-  // グラトリ中心
+  // 男性 / 回答しない
+  if(hasCarving(style)){
+    if(flex === 'ハード') return 'RD GX';
+    return pickRDVariant('RD', height);
+  }
+
   if(style === 'グラトリ中心'){
-    if(camber === 'キャンバー'){
-      if(trick === 'プレス・バター系') return 'LTA-F';
-      if(trick === '弾き・飛び系') return (flex === 'ミドル' || flex === 'ハード') ? 'ZERO' : 'AX-F';
-      return flex === 'ハード' ? 'ZERO' : 'AX-F';
-    }
     if(camber === '可変キャンバー'){
       if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
-      return flex === 'ソフト' ? 'BX-F' : 'BX';
+      if(trick === '弾き・飛び系') return flex === 'ハード' ? 'BX' : (flex === 'ソフト' ? 'BX-F' : 'BX');
+      return flex === 'ソフト' ? 'BX-F' : (flex === 'ハード' ? 'BX' : 'LTB');
+    }
+    if(camber === 'キャンバー'){
+      if(trick === 'プレス・バター系') return flex === 'ハード' ? 'AX-F' : 'LTA-F';
+      if(trick === '弾き・飛び系') return flex === 'ソフト' ? 'AX-F' : 'ZERO';
+      return flex === 'ハード' ? 'ZERO' : 'AX-F';
     }
     if(camber === 'こだわりはない'){
       if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
-      if(trick === '弾き・飛び系') return (flex === 'ミドル' || flex === 'ハード') ? 'ZERO' : 'AX-F';
+      if(trick === '弾き・飛び系') return flex === 'ハード' ? 'ZERO' : 'AX-F';
       return flex === 'ソフト' ? 'BX-F' : 'AX-F';
     }
   }
 
-  // 両方やりたい — 形状×フレックスで細分化
-  if(style === '両方やりたい'){
-    if(camber === 'キャンバー'){
-      if(flex === 'ハード') return 'RD GX';
-      if(flex === 'ソフト') return 'AX-F'; // グラトリ寄りでカービングも欲しい
-      return 'RD'; // ミドル or こだわりなし
-    }
-    if(camber === '可変キャンバー'){
-      if(flex === 'ハード') return 'BX'; // 弾き系でカービングも欲しい
-      if(flex === 'ソフト') return 'LTV';
-      return 'LTY'; // ミドル or こだわりなし
-    }
-    if(camber === 'ダブルキャンバー') return 'DX';
-    // こだわりはない → フレックスで振り分け
-    if(flex === 'ハード') return 'RD';
-    if(flex === 'ソフト') return 'BX-F';
-    return 'LTY'; // ミドル or こだわりなし
-  }
-
-  return 'RD';
+  return pickRDVariant('RD', height);
 }
 
 function chooseSecondModel(a, first){
+  const gender = a.gender || '';
   const style = a.style || '';
   const trick = a.trick || '';
   const camber = a.camber || '';
   const flex = a.flex || '';
+  const height = Number(a.height || 0);
 
-  // DXが第1候補のとき
   if(first === 'DX'){
-    if(style === 'カービング中心' || style === '両方やりたい') return flex === 'ハード' ? 'RD GX' : 'RD';
+    if(gender === '女性'){
+      if(hasCarving(style)) return flex === 'ハード' ? 'RD GX' : pickRDVariant('RD', height);
+      return flex === 'ソフト' ? 'LTV' : 'LTY';
+    }
+    if(hasCarving(style)) return flex === 'ハード' ? 'RD GX' : pickRDVariant('RD', height);
     if(trick === 'プレス・バター系') return flex === 'ソフト' ? 'BX-F' : 'LTB';
-    return (flex === 'ミドル' || flex === 'ハード') ? 'ZERO' : 'AX-F';
+    return flex === 'ハード' ? 'ZERO' : 'AX-F';
   }
 
-  // ペア対応
-  if(first === 'RD GX') return 'RD';
-
-  if(first === 'RD'){
+  if(first === 'RD GX') return pickRDVariant('RD', height);
+  if(first === 'RD' || first === 'RD CV') {
+    if(camber === 'ダブルキャンバー') return 'DX';
     if(style === 'グラトリ中心'){
       if(camber === '可変キャンバー') return trick === 'プレス・バター系' ? (flex === 'ソフト' ? 'BX-F' : 'LTB') : 'BX';
-      return (flex === 'ミドル' || flex === 'ハード') ? 'ZERO' : 'AX-F';
+      if(trick === '弾き・飛び系') return flex === 'ハード' ? 'ZERO' : 'AX-F';
+      return flex === 'ハード' ? 'AX-F' : 'LTA-F';
     }
-    if(camber === 'ダブルキャンバー') return 'DX';
-    return 'RD GX';
+    return first === 'RD CV' ? 'RD' : 'RD GX';
   }
 
-  // RD CVが第1候補のとき → RDを第2候補に
-  if(first === 'RD CV') return 'RD';
-
-  // LTA-F: キャンバー × プレス系 → 第2候補はAX-FまたはLTB
-  if(first === 'LTA-F'){
-    if(camber === '可変キャンバー') return 'LTB';
-    return 'AX-F';
-  }
-
-  if(first === 'AX-F'){
-    if(style === '両方やりたい') return 'RD'; // 両方やりたい×AX-F → 第2はRD
-    return trick === 'プレス・バター系' ? 'LTA-F' : 'ZERO';
-  }
-  if(first === 'ZERO') return 'AX-F';
-
-  // LTB: 第2候補はBX-FまたはLTA-F
-  if(first === 'LTB'){
-    if(camber === 'キャンバー') return 'LTA-F';
-    return 'BX-F';
-  }
-
-  if(first === 'BX'){
-    if(style === '両方やりたい') return 'LTY'; // 両方やりたい×BX → 第2はLTY
-    return flex === 'ソフト' ? 'BX-F' : 'LTB';
-  }
-  if(first === 'BX-F') return trick === 'プレス・バター系' ? 'LTB' : 'BX';
   if(first === 'LTV') return 'LTY';
   if(first === 'LTY') return 'LTV';
+  if(first === 'BX-F') return 'LTB';
+  if(first === 'LTB') return 'BX';
+  if(first === 'BX') return 'LTB';
+  if(first === 'AX-F') return trick === 'プレス・バター系' ? 'LTA-F' : 'ZERO';
+  if(first === 'ZERO') return 'AX-F';
+  if(first === 'LTA-F') return 'AX-F';
 
-  return 'RD';
+  return pickRDVariant('RD', height);
 }
 
 function baseSize(height, weight, style, flex){
@@ -742,6 +697,18 @@ function minimumSize(height, gender, style){
   return min;
 }
 
+
+function finalClampSize(model, size, height, gender, style){
+  const minFloor = minimumSize(height, gender, style);
+  return chooseAllowedSize(model, size, minFloor);
+}
+
+function pickRDVariant(preferred, height){
+  if(preferred === 'RD GX') return 'RD GX';
+  if(height <= 152) return 'RD CV';
+  return 'RD';
+}
+
 function chooseAllowedSize(model, target, minFloor){
   const sizes = MODELS[model].sizes.slice().sort((a,b)=>a-b);
   let filtered = sizes.filter(v => v >= minFloor);
@@ -749,14 +716,6 @@ function chooseAllowedSize(model, target, minFloor){
 
   return filtered.reduce((best, cur) =>
     Math.abs(cur - target) < Math.abs(best - target) ? cur : best, filtered[0]);
-}
-
-// 最終クランプ: 計算結果が実在サイズ一覧にあるか確認し、最近傍に丸める
-function clampToModel(model, size){
-  const sizes = MODELS[model].sizes.slice().sort((a,b)=>a-b);
-  if(sizes.includes(size)) return size;
-  return sizes.reduce((best, cur) =>
-    Math.abs(cur - size) < Math.abs(best - size) ? cur : best, sizes[0]);
 }
 
 function buildWhyTexts(a, firstModel){
@@ -817,7 +776,7 @@ function buildComment(a, firstModel, firstSize, secondModel, secondSize){
 }
 
 
-function getAnalysisLoadingMarkup(label='Generating analysis'){
+function getAnalysisLoadingMarkup(label='Analyzing your setup'){
   return `<div class="analysis-loading">
     <div class="analysis-loading-top">
       <div class="dot-pulse"><span></span><span></span><span></span></div>
@@ -845,10 +804,10 @@ function renderResult(data){
   document.getElementById('second-link').href = PRODUCT_LINKS[second.model];
   document.getElementById('second-rd-note').classList.toggle('hidden', !second.model.includes('RD'));
 
-  document.getElementById('why-style').innerHTML = getAnalysisLoadingMarkup('Generating analysis');
-  document.getElementById('why-flex').innerHTML = getAnalysisLoadingMarkup('Generating analysis');
-  document.getElementById('why-shape').innerHTML = getAnalysisLoadingMarkup('Generating analysis');
-  document.getElementById('diagnosis-comment').innerHTML = getAnalysisLoadingMarkup('Generating analysis');
+  document.getElementById('why-style').innerHTML = getAnalysisLoadingMarkup('Analyzing style match');
+  document.getElementById('why-flex').innerHTML = getAnalysisLoadingMarkup('Analyzing flex match');
+  document.getElementById('why-shape').innerHTML = getAnalysisLoadingMarkup('Analyzing shape match');
+  document.getElementById('diagnosis-comment').innerHTML = getAnalysisLoadingMarkup('Building final diagnosis');
 
   const riderCandidates = [...(RIDERS[first.model] || []), ...(RIDERS[second.model] || [])];
   const unique = [];
@@ -892,20 +851,25 @@ function submitBody(){
   messages.push({ q:'身長', a:`${height}cm` });
   messages.push({ q:'体重', a:`${weight}kg` });
 
+  answers.height = height;
+  answers.weight = weight;
+
   const firstModel = choosePrimaryModel(answers);
   let secondModel = chooseSecondModel(answers, firstModel);
   if(secondModel === firstModel){
-    secondModel = firstModel === 'RD' ? 'RD GX' : 'RD';
-    if(secondModel === firstModel) secondModel = 'AX-F';
+    secondModel = firstModel === 'RD GX' ? pickRDVariant('RD', height) : (firstModel === 'RD' || firstModel === 'RD CV' ? 'RD GX' : 'AX-F');
+    if(secondModel === firstModel) secondModel = 'DX';
   }
 
   const base = baseSize(height, weight, answers.style || '', answers.flex || '');
   const floor = minimumSize(height, answers.gender || '', answers.style || '');
 
-  // サイズ選定 → 最終クランプ（必ずそのモデルの実在サイズに収める）
-  const firstSize  = clampToModel(firstModel,  chooseAllowedSize(firstModel,  base, floor));
+  let firstSize = chooseAllowedSize(firstModel, base, floor);
   const secondBase = base + (MODELS[secondModel].flexRank > MODELS[firstModel].flexRank ? 1 : 0);
-  const secondSize = clampToModel(secondModel, chooseAllowedSize(secondModel, secondBase, floor));
+  let secondSize = chooseAllowedSize(secondModel, secondBase, floor);
+
+  firstSize = finalClampSize(firstModel, firstSize, height, answers.gender || '', answers.style || '');
+  secondSize = finalClampSize(secondModel, secondSize, height, answers.gender || '', answers.style || '');
 
   finalData = {
     answers: { ...answers, height, weight },
